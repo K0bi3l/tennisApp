@@ -9,12 +9,12 @@ class SportMatch {
       required this.id,
       required this.tournamentId});
 
-  final String player1;
-  final String player1Id;
-  final String player2;
-  final String player2Id;
-  final String id;
-  final String tournamentId;
+  String player1;
+  String player1Id;
+  String player2;
+  String player2Id;
+  String id;
+  String tournamentId;
 
   int? result1;
   int? result2;

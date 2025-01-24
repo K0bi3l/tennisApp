@@ -82,7 +82,13 @@ class TournamentDropdownMenuState extends State<TournamentDropdownMenu> {
   final List<MenuEntry> menuEntries = UnmodifiableListView<MenuEntry>(list
       .map<MenuEntry>((String name) => MenuEntry(value: name, label: name)));
 
-  String dropdownValue = list.first;
+  late String dropdownValue;
+
+  @override
+  void initState() {
+    dropdownValue = list.first;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

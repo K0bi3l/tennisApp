@@ -21,6 +21,7 @@ dependencies:
   build_runner: ^2.4.13
   encrypt: ^5.0.3
   bloc: ^9.0.0
+  mocktail: ^1.0.4
   shared_preferences: ^2.3.5
   flutter_localizations:
     sdk: flutter

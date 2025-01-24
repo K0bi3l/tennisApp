@@ -10,7 +10,7 @@ class ConfirmMatchesCubit extends Cubit<MatchState> {
       required this.authService,
       required this.match})
       : super(WaitingState()) {
-    checkAvailibility(match.player1Id, match.player2Id);
+    checkAvailibility();
   }
 
   final TournamentService tournamentService;
@@ -29,15 +29,21 @@ class ConfirmMatchesCubit extends Cubit<MatchState> {
         roundNumber, score1, score2, player1Id, player2Id);
     if (!success) {
       emit(ErrorState());
+    } else {
+      emit(NotAvailableState());
     }
   }
 
-  void checkAvailibility(String player1Id, String player2Id) {
+  void checkAvailibility() {
+    String player1Id = match.player1Id;
+    String player2Id = match.player2Id;
     if (authService.currentUser!.uid == player1Id ||
         authService.currentUser!.uid == player2Id) {
       emit(AvailableState());
+      return;
     } else {
       emit(NotAvailableState());
+      return;
     }
   }
 }

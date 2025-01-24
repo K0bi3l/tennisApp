@@ -474,6 +474,27 @@ class TournamentService {
     });
   }
 
+  Future<bool> checkMatchScore(
+      String tournamentId, int roundNumber, String matchId) async {
+    final docRef = await db
+        .collection('tournaments')
+        .doc(tournamentId)
+        .collection('rounds')
+        .doc('round $roundNumber')
+        .collection('matches')
+        .doc('matchId')
+        .get();
+
+    final firstResult = docRef.data()!['result1'];
+    final secondResult = docRef.data()!['result2'];
+
+    if (firstResult == null || secondResult == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   /*Future<List<SportMatch>> getUserMatchesToConfirm(String tournamentId, String userId) async {
 
     final query = await db.collection('tournaments').doc(tournamentId).collection('users').doc(userId).collection('matchesToConfirm').get();
