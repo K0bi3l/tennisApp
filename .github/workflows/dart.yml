@@ -28,8 +28,7 @@ jobs:
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          flutter-version-file: projekt/pubspec.yaml # path to pubspec.yaml
+          flutter-version: '3.24.3'
       - run: flutter --version
         
       
