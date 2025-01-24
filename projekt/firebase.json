@@ -1,1 +1,33 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"tennis-app-8be5a","appId":"1:221378458417:android:2bdc250ce3f91e2b9eb610","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"tennis-app-8be5a","configurations":{"android":"1:221378458417:android:2bdc250ce3f91e2b9eb610","ios":"1:221378458417:ios:29cc6d38749d49449eb610","macos":"1:221378458417:ios:29cc6d38749d49449eb610","web":"1:221378458417:web:5787b2ae4940d6119eb610","windows":"1:221378458417:web:2ec21aeebb2289439eb610"}}}}}}
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "tennis-app-8be5a",
+                    "appId": "1:221378458417:android:2bdc250ce3f91e2b9eb610",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "tennis-app-8be5a",
+                    "configurations": {
+                        "android": "1:221378458417:android:2bdc250ce3f91e2b9eb610",
+                        "ios": "1:221378458417:ios:29cc6d38749d49449eb610",
+                        "macos": "1:221378458417:ios:29cc6d38749d49449eb610",
+                        "web": "1:221378458417:web:5787b2ae4940d6119eb610",
+                        "windows": "1:221378458417:web:2ec21aeebb2289439eb610"
+                    }
+                }
+            }
+        }
+    },
+    "hosting": {
+        "public": "build/web",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ]
+    }
+}
