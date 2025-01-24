@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projekt/app.dart';
+import 'package:flutter/services.dart';
 import 'package:projekt/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:ui';
 
 class AuthWidget extends StatefulWidget {
   @override
@@ -9,11 +10,12 @@ class AuthWidget extends StatefulWidget {
 }
 
 class AuthWidgetState extends State<AuthWidget> {
-  bool _isLogin = false;
+  bool _isLogin = true;
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +88,37 @@ class AuthWidgetState extends State<AuthWidget> {
                       return null;
                     },
                   ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Wprowadź swoją nazwę użytkownika',
+                      border: OutlineInputBorder(),
+                    ),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(20),
+                    ],
+                  ),
                 ],
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      authCubit.signInWithEmail(
-                          _emailController.text, _passwordController.text);
+                      try {
+                        if (_isLogin) {
+                          authCubit.signInWithEmail(
+                              _emailController.text, _passwordController.text);
+                        } else {
+                          authCubit.signUp(_emailController.text,
+                              _passwordController.text, _nameController.text);
+                        }
+                      } catch (e) {
+                        showDialog(
+                          context: context,
+                          builder: (context) =>
+                              AlertDialog(title: Text(e.toString())),
+                        );
+                      }
                     }
                   },
                   child: Text(_isLogin ? 'Zaloguj się' : 'Zarejestruj się'),

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 enum SignInResult {
   invalidEmail,
@@ -9,13 +10,13 @@ enum SignInResult {
 }
 
 class AuthService {
-  const AuthService({required this.firebase_auth});
+  const AuthService({required this.firebaseAuth});
 
-  final FirebaseAuth firebase_auth;
+  final FirebaseAuth firebaseAuth;
 
   bool get isSignedIn => currentUser != null;
 
-  User? get currentUser => firebase_auth.currentUser;
+  User? get currentUser => firebaseAuth.currentUser;
 
   String get userEmail => currentUser!.email!;
 
@@ -23,20 +24,23 @@ class AuthService {
     if (isSignedIn) {
       return false;
     }
-
-    await firebase_auth.createUserWithEmailAndPassword(
-        email: email, password: password);
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+    } catch (e) {
+      FlutterError.reportError(FlutterErrorDetails(exception: e));
+    }
 
     return true;
   }
 
   Future<SignInResult> signInWithEmail(String email, String password) async {
     if (isSignedIn) {
-      await firebase_auth.signOut();
+      await firebaseAuth.signOut();
     }
 
     try {
-      await firebase_auth.signInWithEmailAndPassword(
+      await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       return SignInResult.success;
     } on FirebaseAuthException catch (e) {
@@ -57,7 +61,7 @@ class AuthService {
 
   Future<void> signOut() async {
     if (isSignedIn) {
-      await firebase_auth.signOut();
+      await firebaseAuth.signOut();
     }
   }
 }

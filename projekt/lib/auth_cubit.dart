@@ -1,15 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:projekt/tournament_service.dart';
 import 'dart:async';
 import 'auth_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({required this.authService}) : super(authService.stateFromAuth) {
+  AuthCubit({required this.authService, required this.tournamentService})
+      : super(authService.stateFromAuth) {
+    userEmail = authService.currentUser?.email;
     emit(authService.stateFromAuth);
   }
 
   final AuthService authService;
+  final TournamentService tournamentService;
+  String? userEmail;
 
   Future<void> signInWithEmail(String email, String password) async {
     emit(SigningInState());
@@ -21,26 +25,33 @@ class AuthCubit extends Cubit<AuthState> {
       case SignInResult.userDisabled:
         emit(SignedOutState(error: 'This user has been banned.'));
       case SignInResult.userNotFound:
-        await _trySignUp(email, password);
+        emit(SignedOutState(error: 'nie ma takiego użytkownika'));
       case SignInResult.wrongPassword:
         emit(SignedOutState(error: 'Invalid credentials.'));
       case SignInResult.success:
+        userEmail = email;
+        await tournamentService.getUserTournaments();
         emit(SignedInState(email: email));
     }
   }
 
-  Future<void> _trySignUp(String email, String password) async {
-    await authService.signUpWithEmail(email, password);
+  Future<void> signUp(String email, String password, String name) async {
+    emit(SigningInState());
+    final result = await authService.signUpWithEmail(email, password);
+    if (result == true) {
+      await authService.signInWithEmail(email, password);
+      tournamentService.addUser(
+          email, password, name); //przenieść do auth service
+      emit(SignedOutState());
+    } else {
+      emit(SignedOutState(error: 'nastąpił błąd przy rejestracji'));
+    }
   }
 
   Future<void> signOut() async {
     await authService.signOut();
+    userEmail = null;
     emit(SignedOutState());
-  }
-
-  @override
-  Future<void> close() async {
-    return super.close();
   }
 }
 
