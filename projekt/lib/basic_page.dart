@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projekt/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:projekt/tournament_form_provider.dart';
 import 'package:projekt/tournament_list_provider.dart';
 import 'package:projekt/tournament_service.dart';
 import 'package:go_router/go_router.dart';
-import 'tournament_creator.dart';
 
 class BasicPage extends StatelessWidget {
   const BasicPage({super.key});

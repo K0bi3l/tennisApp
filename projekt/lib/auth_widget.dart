@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projekt/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:ui';
 
 class AuthWidget extends StatefulWidget {
+  const AuthWidget({super.key});
+
   @override
   AuthWidgetState createState() => AuthWidgetState();
 }

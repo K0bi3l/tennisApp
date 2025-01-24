@@ -111,12 +111,15 @@ class SmallReadyTournamentPageState extends State<SmallReadyTournamentPage> {
         controller: _pageController,
         children: [
           SmallPagesWrapper(
-            child: MatchesDisplayer(matches: widget.tournamentInfo.matches),
+            child: MatchesDisplayer(
+                matches: widget.tournamentInfo.matches,
+                width: 0.7 * MediaQuery.of(context).size.width),
           ),
           SmallPagesWrapper(
             child: TournamentTable(
               playersCount: widget.tournamentInfo.numOfPlayers,
               tournamentId: widget.tournamentInfo.id,
+              width: MediaQuery.of(context).size.width * 0.8,
             ),
           ),
           SmallPagesWrapper(
@@ -194,10 +197,13 @@ class BigReadyTournamentPageState extends State<BigReadyTournamentPage> {
             Players(
               playersInfo: widget.tournamentInfo.userIds!,
             ),
-            MatchesDisplayer(matches: widget.tournamentInfo.matches),
+            MatchesDisplayer(
+                matches: widget.tournamentInfo.matches,
+                width: 0.4 * MediaQuery.of(context).size.width),
             TournamentTable(
               playersCount: widget.tournamentInfo.numOfPlayers,
               tournamentId: widget.tournamentInfo.id,
+              width: MediaQuery.of(context).size.width * 0.2,
             ),
           ],
         ),
@@ -328,7 +334,10 @@ class ConfirmMatchEntry extends StatelessWidget {
 }
 
 class MatchesDisplayer extends StatefulWidget {
-  const MatchesDisplayer({super.key, required this.matches});
+  const MatchesDisplayer(
+      {super.key, required this.matches, required this.width});
+
+  final double width;
 
   final List<List<SportMatch>>? matches;
   @override
@@ -373,7 +382,6 @@ class MatchesDisplayerState extends State<MatchesDisplayer>
       return const Placeholder();
     }
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Stack(
@@ -381,7 +389,7 @@ class MatchesDisplayerState extends State<MatchesDisplayer>
         children: [
           SizedBox(
             height: height,
-            width: 0.4 * width,
+            width: widget.width,
             child: PageView.builder(
               itemCount: widget.matches!.length,
               controller: _pageViewController,
@@ -390,7 +398,7 @@ class MatchesDisplayerState extends State<MatchesDisplayer>
                 return SchedulePage(
                     currentRound: _currentPageIndex + 1,
                     height: height,
-                    width: width,
+                    width: widget.width,
                     matches: widget.matches![_currentPageIndex]);
               },
             ),
@@ -521,7 +529,7 @@ class OpenMatchEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final matchCubit = context.watch<ConfirmMatchesCubit>();
+    //final matchCubit = context.watch<ConfirmMatchesCubit>();
     final tournamentService = context.watch<TournamentService>();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -806,16 +814,20 @@ class NotReadyTournamentPage extends StatelessWidget {
 
 class TournamentTable extends StatelessWidget {
   const TournamentTable(
-      {super.key, required this.playersCount, required this.tournamentId});
+      {super.key,
+      required this.playersCount,
+      required this.tournamentId,
+      required this.width});
 
   final int playersCount;
   final String tournamentId;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     var tournamentService = context.watch<TournamentService>();
     //final height = MediaQuery.of(context).size.height * 0.8;
-    final width = MediaQuery.of(context).size.width * 0.2;
+    //final width = MediaQuery.of(context).size.width * 0.2;
     return FutureBuilder(
       future: tournamentService.getTournamentTable(tournamentId),
       builder: (context, snapshot) {

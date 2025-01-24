@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:projekt/firebase_options.dart';
 import 'app.dart';
 import 'package:go_router/go_router.dart';
-import 'BasicPage.dart';
+import 'basic_page.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -101,7 +101,7 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => App(), //MyApp(),
+      builder: (context, state) => const App(), //MyApp(),
       routes: [
         GoRoute(
           path: 'home',

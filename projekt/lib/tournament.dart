@@ -1,5 +1,3 @@
-import 'package:projekt/tournament_form_provider.dart';
-import 'package:hive/hive.dart';
 import 'sport_match.dart';
 
 class Tournament {
@@ -23,18 +21,4 @@ class Tournament {
   final String code;
   final List<String>? userIds;
   final List<List<SportMatch>>? matches;
-}
-
-@HiveType(typeId: 0)
-class TournamentDTO {
-  TournamentDTO({required this.id, required this.name, required this.type});
-
-  @HiveField(0)
-  final String id;
-
-  @HiveField(1)
-  final String name;
-
-  @HiveField(2)
-  final TournamentType? type;
 }

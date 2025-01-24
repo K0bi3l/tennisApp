@@ -295,7 +295,6 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                     onPressed: () async {
                       try {
                         if (_formKey.currentState?.validate() ?? false) {
-                          String id = '';
                           String code = '';
                           if (lastDate == null) {
                             setState(() {
@@ -306,7 +305,7 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                           } else {
                             errorMessage = null;
                           }
-                          (id, code) = await service.createTournament(
+                          code = await service.createTournament(
                               data.name,
                               data.type,
                               numberController.text,

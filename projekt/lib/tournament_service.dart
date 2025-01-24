@@ -29,7 +29,7 @@ class TournamentService {
     });
   }
 
-  Future<(String id, String code)> createTournament(
+  Future<String> createTournament(
       String? name,
       TournamentType? type,
       String numOfPlayers,
@@ -76,7 +76,7 @@ class TournamentService {
       'code': code.toString(),
     });
 
-    return (docRef.id, code.toString());
+    return code.toString();
   }
 
   Future<String> getUserName(String userId) async {
