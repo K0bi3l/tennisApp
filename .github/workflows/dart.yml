@@ -96,7 +96,7 @@ jobs:
         fi
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      working-directory: projekt
+
        
 
      
