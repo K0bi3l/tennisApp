@@ -14,12 +14,11 @@ import 'package:projekt/features/tournament_page/cubit/tournament_cubit.dart';
 import 'package:projekt/features/tournament_page/tournament_page.dart';
 import 'package:projekt/firebase_options.dart';
 import 'package:provider/provider.dart';
-
-import '../auth/cubit/auth_cubit.dart';
-import '../auth/services/auth_service.dart';
-import '../basic_page/widgets/basic_page.dart';
-import '../services/tournament_service.dart';
-import 'app.dart';
+import 'features/auth/cubit/auth_cubit.dart';
+import 'features/auth/services/auth_service.dart';
+import 'features/basic_page/widgets/basic_page.dart';
+import 'features/services/tournament_service.dart';
+import 'features/widgets/app.dart';
 
 void main() {
   runApp(const _App());
