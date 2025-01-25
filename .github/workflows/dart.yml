@@ -90,7 +90,13 @@ jobs:
       run: |
         pwd
         ls -R
-      working-directory: projekt
+      working-directory: projekt/home/runner/work/tennisApp/tennisApp
+
+    - name: Debug - List directories2
+      run: |
+        pwd
+        ls -R
+      
   
     - name: Deploy to Firebase Hosting
       run: |
