@@ -1,9 +1,8 @@
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:projekt/auth_service.dart';
+import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:projekt/sport_match.dart';
-import 'package:projekt/tournament_page.dart';
+import 'package:projekt/features/tournament_page/tournament_page.dart';
 import 'package:provider/provider.dart';
 import 'package:projekt/tournament.dart';
 

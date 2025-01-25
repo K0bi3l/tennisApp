@@ -1,4 +1,4 @@
-import 'sport_match.dart';
+import 'features/tournament_page/sport_match.dart';
 
 class Tournament {
   Tournament(

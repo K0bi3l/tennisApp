@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:projekt/auth_service.dart';
+import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:projekt/confirm_matches_cubit.dart';
-import 'package:projekt/sport_match.dart';
-import 'package:projekt/tournament_list_provider.dart';
+import 'package:projekt/features/tournament_page/confirm_matches_cubit.dart';
+import 'package:projekt/features/tournament_page/sport_match.dart';
+import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/tournament_service.dart';
 
 class MockTournamentService extends Mock implements TournamentService {}

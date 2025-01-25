@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'tournament.dart';
+import '../../../tournament.dart';
 
 class TournamentListData extends ChangeNotifier {
   List<Tournament>? get tournaments => _tournaments;

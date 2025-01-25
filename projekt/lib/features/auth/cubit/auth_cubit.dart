@@ -1,6 +1,6 @@
 import 'package:projekt/tournament_service.dart';
 import 'dart:async';
-import 'auth_service.dart';
+import '../services/auth_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

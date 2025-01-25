@@ -1,12 +1,12 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:projekt/auth_cubit.dart';
-import 'package:projekt/auth_widget.dart';
+import 'package:projekt/features/auth/cubit/auth_cubit.dart';
+import 'package:projekt/features/auth/widgets/auth_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:projekt/auth_service.dart';
-import 'package:projekt/tournament_list_provider.dart';
+import 'package:projekt/features/auth/services/auth_service.dart';
+import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/tournament_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

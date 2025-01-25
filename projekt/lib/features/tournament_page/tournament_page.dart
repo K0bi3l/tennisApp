@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projekt/auth_service.dart';
-import 'package:projekt/confirm_matches_cubit.dart';
-import 'package:projekt/sport_match.dart';
+import 'package:projekt/features/auth/services/auth_service.dart';
+import 'package:projekt/features/tournament_page/confirm_matches_cubit.dart';
+import 'package:projekt/features/tournament_page/sport_match.dart';
 import 'package:projekt/tournament_service.dart';
-import 'tournament.dart';
+import '../../tournament.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'tournament_cubit.dart';
 import 'package:animations/animations.dart';
@@ -645,6 +645,8 @@ class OpenMatchEntry extends StatelessWidget {
                                           Text('Nie udało się dodać wyniku'),
                                     ),
                                   );
+                                } else {
+                                  context.pop();
                                 }
                               } catch (e) {
                                 FlutterError.reportError(
