@@ -133,7 +133,7 @@ void main() {
           1.toString(),
           mockMatch1.player1Id,
           mockMatch1.player2Id);
-      expect(cubit.state, AvailableState());
+      expect(cubit.state, NotAvailableState());
     });
   });
 }

@@ -61,7 +61,7 @@ class SmallBasicPageState extends State<SmallBasicPage> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text('Jesteś zalogowany jako ${authCubit.userEmail}'),
+          child: Text('${authCubit.userEmail}'),
         ),
       ),
       body: Center(
@@ -288,7 +288,6 @@ class JoinTournamentWidget extends StatelessWidget {
   }
 }
 
-// TODO: być może jest coś lepszego niż FutureBuilder w takim przypadku
 class TournamentsList extends StatelessWidget {
   const TournamentsList({super.key, required this.width});
 

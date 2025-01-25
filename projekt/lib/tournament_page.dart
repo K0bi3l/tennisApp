@@ -112,7 +112,7 @@ class SmallReadyTournamentPageState extends State<SmallReadyTournamentPage> {
         children: [
           SmallPagesWrapper(
             child: MatchesDisplayer(
-                matches: widget.tournamentInfo.matches,
+                matches: widget.tournamentInfo.matches ?? [],
                 width: 0.7 * MediaQuery.of(context).size.width),
           ),
           SmallPagesWrapper(
