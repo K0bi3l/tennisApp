@@ -54,12 +54,14 @@ jobs:
 
       - name: Build flutter web app
         run: flutter build web
+        working-directory: projekt
 
       - name: Save build output
         uses: actions/upload-artifact@v3
         with:
           name: build-web
           path: build/web
+        
       
   deploy:
     name: Deploy to firebase hosting
