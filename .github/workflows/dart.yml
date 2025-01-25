@@ -101,7 +101,7 @@ jobs:
           echo "Directory 'build/web' does not exist, aborting deploy"
           exit 1
         fi
-      working-directory: projekt
+      working-directory: projekt/home/runner/work/tennisApp/tennisApp
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
