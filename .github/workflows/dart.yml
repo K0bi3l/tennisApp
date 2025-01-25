@@ -77,7 +77,8 @@ jobs:
         mkdir build
         cd build
         mkdir web
-        cd ..
+        cd web
+      working-directory: projekt
 
     - name: Download build
       uses: actions/download-artifact@v3
@@ -85,32 +86,34 @@ jobs:
         name: build-web
         path: build/web
 
-
-    #- name: Deploy to Firebase Hosting
-     # uses: w9jds/firebase-action@master
-      #with:
-       # args: deploy --only hosting       
-      #env:
-       # FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-
-    - name: Debug - List directories 
+    - name: Change directory 
       run: |
-        pwd
-        ls
+        cd ..
+        cd ..
 
-  
     - name: Deploy to Firebase Hosting
-      run: |
-        if [ -d "build/web" ]; then
-          npm install -g firebase-tools
-          firebase deploy --only hosting
-        else
-          echo "Directory 'build/web' does not exist, aborting deploy"
-          exit 1
-        fi
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting       
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+
+    
+
+  
+    #- name: Deploy to Firebase Hosting
+     # run: |
+      #  if [ -d "build/web" ]; then
+       #   npm install -g firebase-tools
+        #  firebase deploy --only hosting
+        #else
+         # echo "Directory 'build/web' does not exist, aborting deploy"
+         # exit 1
+        #fi
+      #env:
+       # FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      #working-directory: projekt
 
        
 
