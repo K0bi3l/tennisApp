@@ -87,7 +87,7 @@ jobs:
        # FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     - name: Deploy to Firebase Hosting
       run: |
-        if [ -d "projekt/build/web" ]; then
+        if [ -d "build/web" ]; then
           npm install -g firebase-tools
           firebase deploy --only hosting
         else
