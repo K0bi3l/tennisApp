@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projekt/features/tournament_page/sport_match.dart';
+import 'package:projekt/features/tournament_page/models/sport_match.dart';
 import 'package:animations/animations.dart';
 
 class ConfirmMatchesWidgetWrapper extends StatelessWidget {

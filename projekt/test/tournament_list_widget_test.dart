@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:projekt/features/basic_page/join_tournament/widgets/tournaments_list.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
-import 'package:projekt/tournament_service.dart';
+import 'package:projekt/features/services/tournament_service.dart';
 import 'package:provider/provider.dart';
-import 'package:projekt/tournament.dart';
+import 'package:projekt/features/models/tournament.dart';
 
 void main() {
   group('', () {

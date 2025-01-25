@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:projekt/tournament_service.dart';
+import 'package:projekt/features/services/tournament_service.dart';
 
 class JoinTournamentWidget extends StatelessWidget {
   JoinTournamentWidget({super.key});

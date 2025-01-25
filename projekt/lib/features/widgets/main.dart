@@ -1,6 +1,6 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:projekt/features/basic_page/tournament_creating_form/widgets/page2.dart';
-import 'package:projekt/features/tournament_page/tournament_cubit.dart';
+import 'package:projekt/features/tournament_page/cubit/tournament_cubit.dart';
 import 'package:projekt/features/basic_page/tournament_creating_form/providers/tournament_form_provider.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/features/tournament_page/tournament_page.dart';
@@ -9,14 +9,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:projekt/firebase_options.dart';
 import 'app.dart';
 import 'package:go_router/go_router.dart';
-import 'features/basic_page/widgets/basic_page.dart';
+import '../basic_page/widgets/basic_page.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'features/auth/cubit/auth_cubit.dart';
-import 'features/auth/services/auth_service.dart';
-import 'tournament_service.dart';
+import '../auth/cubit/auth_cubit.dart';
+import '../auth/services/auth_service.dart';
+import '../services/tournament_service.dart';
 import 'package:projekt/features/basic_page/tournament_creating_form/widgets/page1.dart';
 
 void main() {

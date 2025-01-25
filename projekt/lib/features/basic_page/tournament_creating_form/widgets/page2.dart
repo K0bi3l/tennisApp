@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../../tournament_service.dart';
+import '../../../services/tournament_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../providers/tournament_form_provider.dart';
 import 'package:go_router/go_router.dart';

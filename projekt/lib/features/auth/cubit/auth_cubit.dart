@@ -1,4 +1,4 @@
-import 'package:projekt/tournament_service.dart';
+import 'package:projekt/features/services/tournament_service.dart';
 import 'dart:async';
 import '../services/auth_service.dart';
 import 'package:equatable/equatable.dart';

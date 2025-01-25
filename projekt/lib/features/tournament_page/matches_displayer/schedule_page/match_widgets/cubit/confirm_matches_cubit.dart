@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
-import 'package:projekt/features/tournament_page/sport_match.dart';
-import '../../tournament_service.dart';
+import 'package:projekt/features/tournament_page/models/sport_match.dart';
+import '../../../../../services/tournament_service.dart';
 
 class ConfirmMatchesCubit extends Cubit<MatchState> {
   ConfirmMatchesCubit(

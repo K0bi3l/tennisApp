@@ -1,4 +1,4 @@
-import 'features/tournament_page/sport_match.dart';
+import '../tournament_page/models/sport_match.dart';
 
 class Tournament {
   Tournament(

@@ -2,11 +2,11 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
-import 'package:projekt/features/tournament_page/tournament_participant.dart';
-import 'features/basic_page/tournament_creating_form/providers/tournament_form_provider.dart';
-import 'tournament.dart';
+import 'package:projekt/features/tournament_page/models/tournament_participant.dart';
+import '../basic_page/tournament_creating_form/providers/tournament_form_provider.dart';
+import '../models/tournament.dart';
 import 'package:flutter/foundation.dart';
-import 'features/tournament_page/sport_match.dart';
+import '../tournament_page/models/sport_match.dart';
 import 'users_list_shuffler.dart';
 
 class TournamentService {

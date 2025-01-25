@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:projekt/users_list_shuffler.dart';
+import 'package:projekt/features/services/users_list_shuffler.dart';
 
 void main() {
   test('test pojedynczego shufflowania zawodników w turnieju', () {

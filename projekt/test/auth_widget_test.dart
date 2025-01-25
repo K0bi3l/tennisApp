@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
-import 'package:projekt/tournament_service.dart';
+import 'package:projekt/features/services/tournament_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MockAuthService extends Mock implements AuthService {}
