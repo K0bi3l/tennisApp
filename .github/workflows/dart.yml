@@ -85,23 +85,17 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: build-web
-
-    - name: Change directory 
-      run: |
-        pwd
-        cd ..
-        pwd
-        cd ..
-        pwd
+        path: projekt/build/web
 
 
     - name: Deploy to Firebase Hosting
       uses: w9jds/firebase-action@master
       with:
-        args: deploy --only hosting       
+        args: deploy --only hosting
+        path: projekt
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
+    
 
     
 
