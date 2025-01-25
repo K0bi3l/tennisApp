@@ -87,17 +87,7 @@ jobs:
         name: build-web
         path: projekt/build/web
 
-    - name: check firebase.json existance
-      run: |
-        ls
-      working-directory: projekt
-
-
-    
-
-    
-
-  
+      
     - name: Deploy to Firebase Hosting
       run: |
         if [ -d "build/web" ]; then
