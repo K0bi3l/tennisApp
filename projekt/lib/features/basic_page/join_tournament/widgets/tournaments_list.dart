@@ -27,7 +27,7 @@ class TournamentsList extends StatelessWidget {
             ),
           ),
           width: width,
-          height: height * 0.8,
+          height: height * 0.7,
           child: CustomScrollView(
             slivers: [
               SliverList.separated(

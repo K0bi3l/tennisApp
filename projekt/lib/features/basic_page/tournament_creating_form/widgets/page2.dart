@@ -225,6 +225,8 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                                 ),
                               ),
                             );
+                          }
+                          if (context.mounted) {
                             await context.push('/tournament/$id');
                           }
                         }

@@ -169,7 +169,7 @@ class SmallPagesWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 40, top: 40),
+      padding: const EdgeInsets.only(bottom: 15, top: 15),
       child: Center(
         child: child,
       ),

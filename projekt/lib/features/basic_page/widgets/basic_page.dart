@@ -100,13 +100,13 @@ class SmallBasicPage2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30),
+    return const Padding(
+      padding: EdgeInsets.all(30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CreateTournamentButton(),
-          const SizedBox(
+          CreateTournamentButton(),
+          SizedBox(
             height: 24,
           ),
           JoinTournamentWidget(),
@@ -169,14 +169,14 @@ class BigBasicPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Flexible(
+                  const Flexible(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: EdgeInsets.only(left: 30),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const CreateTournamentButton(),
-                          const SizedBox(
+                          CreateTournamentButton(),
+                          SizedBox(
                             height: 24,
                           ),
                           JoinTournamentWidget(),
