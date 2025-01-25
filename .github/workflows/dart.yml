@@ -90,6 +90,8 @@ jobs:
       run: |
         cd ..
         cd ..
+        pwd
+        ls
 
     - name: Deploy to Firebase Hosting
       uses: w9jds/firebase-action@master
