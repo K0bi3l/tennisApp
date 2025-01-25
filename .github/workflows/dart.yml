@@ -86,11 +86,6 @@ jobs:
       #env:
        # FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
-    - name: Debug - List directories
-      run: |
-        pwd
-        ls -R
-      working-directory: projekt/home/runner/work/tennisApp/tennisApp
 
     - name: Debug - List directories2
       run: |
@@ -107,7 +102,6 @@ jobs:
           echo "Directory 'build/web' does not exist, aborting deploy"
           exit 1
         fi
-      working-directory: projekt/home/runner/work/tennisApp/tennisApp
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
