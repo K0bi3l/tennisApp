@@ -87,10 +87,23 @@ jobs:
        # FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
 
-    - name: Debug - List directories2
+    - name: Debug - List directories 
       run: |
         pwd
-        ls -R
+        ls
+    - name: Debug - List directories in projekt
+      run: |
+        pwd
+        ls
+    - name: Check if build/web exists
+      run: |
+        if find . -type d -name "web" -path "*build*"; then
+          echo "Found build/web, proceeding with deploy"
+        else
+          echo "build/web not found, aborting deploy"
+        exit 1
+      working-directory: /home/runner/work/tennisApp/tennisApp
+
       
   
     - name: Deploy to Firebase Hosting
