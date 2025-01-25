@@ -78,20 +78,22 @@ jobs:
         cd build
         mkdir web
         cd web
+        pwd
       working-directory: projekt
 
     - name: Download build
       uses: actions/download-artifact@v3
       with:
         name: build-web
-        path: build/web
 
     - name: Change directory 
       run: |
-        cd ..
+        pwd
         cd ..
         pwd
-        ls
+        cd ..
+        pwd
+
 
     - name: Deploy to Firebase Hosting
       uses: w9jds/firebase-action@master
