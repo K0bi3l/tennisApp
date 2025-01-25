@@ -33,6 +33,9 @@ class TournamentPage extends StatelessWidget {
                 TournamentNotReady() => NotReadyTournamentPage(state: state),
                 TournamentReady() =>
                   ReadyTournamentPage(tournamentInfo: snapshot.data!),
+                TournamentError() => const Center(
+                    child: Text('Unexpected error'),
+                  ),
               };
             },
           );

@@ -273,7 +273,7 @@ class TournamentService {
     final userNames = users.map((user) => user.$1).toList();
     final userIds = users.map((user) => user.$2).toList();
     final rounds = usersCount - 1;
-    final matchesInRoundCount = usersCount * 0.5 as int;
+    final matchesInRoundCount = usersCount * 0.5;
     try {
       for (int i = 0; i < rounds; i++) {
         for (int j = 0; j < matchesInRoundCount; j++) {
