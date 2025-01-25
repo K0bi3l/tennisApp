@@ -1,16 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:projekt/features/tournament_page/matches_displayer/schedule_page/match_widgets/cubit/confirm_matches_cubit.dart';
-import 'package:projekt/features/tournament_page/models/sport_match.dart';
-import 'package:projekt/features/tournament_page/matches_displayer/schedule_page/match_widgets/widgets/open_match_entry.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animations/animations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:projekt/features/tournament_page/matches_displayer/schedule_page/match_widgets/cubit/confirm_matches_cubit.dart';
+import 'package:projekt/features/tournament_page/matches_displayer/schedule_page/match_widgets/widgets/open_match_entry.dart';
+import 'package:projekt/features/tournament_page/models/sport_match.dart';
 
 class MatchEntryWrapper extends StatelessWidget {
-  const MatchEntryWrapper(
-      {super.key,
-      required this.match,
-      required this.closedChild,
-      required this.roundNumber});
+  const MatchEntryWrapper({
+    super.key,
+    required this.match,
+    required this.closedChild,
+    required this.roundNumber,
+  });
 
   final SportMatch match;
   final Widget closedChild;

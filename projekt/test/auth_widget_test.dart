@@ -1,14 +1,14 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:projekt/features/auth/cubit/auth_cubit.dart';
-import 'package:projekt/features/auth/widgets/auth_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:projekt/features/auth/cubit/auth_cubit.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
+import 'package:projekt/features/auth/widgets/auth_widget.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/features/services/tournament_service.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MockAuthService extends Mock implements AuthService {}
 
@@ -26,18 +26,20 @@ void main() {
       mockDb = FakeFirebaseFirestore();
       authService = AuthService(firebaseAuth: mockAuthentication);
       tournamentService = TournamentService(
-          db: mockDb,
-          authService: authService,
-          tournamentData: TournamentListData());
+        db: mockDb,
+        authService: authService,
+        tournamentData: TournamentListData(),
+      );
     });
 
-    testWidgets('Test domyślnego widoku logowania',
-        (WidgetTester tester) async {
+    testWidgets('Test domyślnego widoku logowania', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider(
             create: (context) => AuthCubit(
-                authService: authService, tournamentService: tournamentService),
+              authService: authService,
+              tournamentService: tournamentService,
+            ),
             child: const AuthWidget(),
           ),
         ),
@@ -46,12 +48,14 @@ void main() {
       expect(find.text('Zaloguj się'), findsOneWidget);
     });
 
-    testWidgets('test rejestracji', (WidgetTester tester) async {
+    testWidgets('test rejestracji', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider(
             create: (context) => AuthCubit(
-                authService: authService, tournamentService: tournamentService),
+              authService: authService,
+              tournamentService: tournamentService,
+            ),
             child: const AuthWidget(),
           ),
         ),
@@ -64,12 +68,14 @@ void main() {
       //expect(find.text('Zaloguj się'), findsNothing);
     });
 
-    testWidgets('test walidacji loginu', (WidgetTester tester) async {
+    testWidgets('test walidacji loginu', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider(
             create: (context) => AuthCubit(
-                authService: authService, tournamentService: tournamentService),
+              authService: authService,
+              tournamentService: tournamentService,
+            ),
             child: const AuthWidget(),
           ),
         ),
@@ -81,12 +87,14 @@ void main() {
       expect(find.text('Wprowadź poprawny e-mail'), findsOne);
     });
 
-    testWidgets('test walidacji hasła', (WidgetTester tester) async {
+    testWidgets('test walidacji hasła', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider(
             create: (context) => AuthCubit(
-                authService: authService, tournamentService: tournamentService),
+              authService: authService,
+              tournamentService: tournamentService,
+            ),
             child: const AuthWidget(),
           ),
         ),

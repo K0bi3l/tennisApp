@@ -1,12 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:projekt/features/auth/services/auth_service.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:projekt/features/tournament_page/matches_displayer/schedule_page/match_widgets/cubit/confirm_matches_cubit.dart';
-import 'package:projekt/features/tournament_page/models/sport_match.dart';
+import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/features/services/tournament_service.dart';
+import 'package:projekt/features/tournament_page/matches_displayer/schedule_page/match_widgets/cubit/confirm_matches_cubit.dart';
+import 'package:projekt/features/tournament_page/models/sport_match.dart';
 
 class MockTournamentService extends Mock implements TournamentService {}
 
@@ -24,19 +24,21 @@ void main() {
       mockUser2 = MockUser(uid: '67890', email: '67890@gmail.com');
       listData = TournamentListData();
       mockMatch1 = SportMatch(
-          player1: '12345',
-          player2: '67890',
-          player1Id: '12345',
-          player2Id: '67890',
-          id: 'match1',
-          tournamentId: 'tournament1');
+        player1: '12345',
+        player2: '67890',
+        player1Id: '12345',
+        player2Id: '67890',
+        id: 'match1',
+        tournamentId: 'tournament1',
+      );
       mockMatch2 = SportMatch(
-          player1: 'afsfdsf',
-          player2: 'dsfljksdfkl',
-          player1Id: 'dflsdjfdsk',
-          player2Id: 'dslfjdshjfh',
-          id: 'match1',
-          tournamentId: 'tournament1');
+        player1: 'afsfdsf',
+        player2: 'dsfljksdfkl',
+        player1Id: 'dflsdjfdsk',
+        player2Id: 'dslfjdshjfh',
+        id: 'match1',
+        tournamentId: 'tournament1',
+      );
       mockFirestore = FakeFirebaseFirestore();
       mockFirestore
           .collection('tournaments')
@@ -80,59 +82,63 @@ void main() {
     });
 
     test('test inicjalizacji z dobrym id ', () {
-      MockFirebaseAuth mockAuth1 =
-          MockFirebaseAuth(signedIn: true, mockUser: mockUser1);
-      AuthService authService1 = AuthService(firebaseAuth: mockAuth1);
-      TournamentService tournamentService1 = TournamentService(
-          db: mockFirestore,
-          authService: authService1,
-          tournamentData: listData);
+      final mockAuth1 = MockFirebaseAuth(signedIn: true, mockUser: mockUser1);
+      final authService1 = AuthService(firebaseAuth: mockAuth1);
+      final tournamentService1 = TournamentService(
+        db: mockFirestore,
+        authService: authService1,
+        tournamentData: listData,
+      );
 
-      ConfirmMatchesCubit cubit = ConfirmMatchesCubit(
-          tournamentService: tournamentService1,
-          authService: authService1,
-          match: mockMatch1);
+      final cubit = ConfirmMatchesCubit(
+        tournamentService: tournamentService1,
+        authService: authService1,
+        match: mockMatch1,
+      );
 
       expect(cubit.state, AvailableState());
     });
 
     test('test inicjalizacji ze złym id', () {
-      MockFirebaseAuth mockAuth2 =
-          MockFirebaseAuth(signedIn: true, mockUser: mockUser2);
-      AuthService authService2 = AuthService(firebaseAuth: mockAuth2);
-      TournamentService tournamentService2 = TournamentService(
-          db: mockFirestore,
-          authService: authService2,
-          tournamentData: listData);
-      ConfirmMatchesCubit cubit = ConfirmMatchesCubit(
-          tournamentService: tournamentService2,
-          authService: authService2,
-          match: mockMatch2);
+      final mockAuth2 = MockFirebaseAuth(signedIn: true, mockUser: mockUser2);
+      final authService2 = AuthService(firebaseAuth: mockAuth2);
+      final tournamentService2 = TournamentService(
+        db: mockFirestore,
+        authService: authService2,
+        tournamentData: listData,
+      );
+      final cubit = ConfirmMatchesCubit(
+        tournamentService: tournamentService2,
+        authService: authService2,
+        match: mockMatch2,
+      );
 
       expect(cubit.state, NotAvailableState());
     });
 
     test('test dodania wyniku do meczu bez wyniku', () async {
-      MockFirebaseAuth mockAuth1 =
-          MockFirebaseAuth(signedIn: true, mockUser: mockUser1);
-      AuthService authService1 = AuthService(firebaseAuth: mockAuth1);
-      TournamentService tournamentService1 = TournamentService(
-          db: mockFirestore,
-          authService: authService1,
-          tournamentData: listData);
+      final mockAuth1 = MockFirebaseAuth(signedIn: true, mockUser: mockUser1);
+      final authService1 = AuthService(firebaseAuth: mockAuth1);
+      final tournamentService1 = TournamentService(
+        db: mockFirestore,
+        authService: authService1,
+        tournamentData: listData,
+      );
 
-      ConfirmMatchesCubit cubit = ConfirmMatchesCubit(
-          tournamentService: tournamentService1,
-          authService: authService1,
-          match: mockMatch1);
+      final cubit = ConfirmMatchesCubit(
+        tournamentService: tournamentService1,
+        authService: authService1,
+        match: mockMatch1,
+      );
       await cubit.setMatchScore(
-          mockMatch1.tournamentId,
-          mockMatch1.id,
-          1,
-          2.toString(),
-          1.toString(),
-          mockMatch1.player1Id,
-          mockMatch1.player2Id);
+        mockMatch1.tournamentId,
+        mockMatch1.id,
+        1,
+        2.toString(),
+        1.toString(),
+        mockMatch1.player1Id,
+        mockMatch1.player2Id,
+      );
       expect(cubit.state, NotAvailableState());
     });
   });

@@ -3,12 +3,13 @@ import 'package:projekt/features/tournament_page/matches_displayer/schedule_page
 import 'package:projekt/features/tournament_page/models/sport_match.dart';
 
 class SchedulePage extends StatelessWidget {
-  const SchedulePage(
-      {required this.currentRound,
-      required this.height,
-      required this.matches,
-      required this.width,
-      super.key});
+  const SchedulePage({
+    required this.currentRound,
+    required this.height,
+    required this.matches,
+    required this.width,
+    super.key,
+  });
 
   final int currentRound;
   final double height;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/features/services/tournament_service.dart';
-import 'package:go_router/go_router.dart';
 
 class TournamentsList extends StatelessWidget {
   const TournamentsList({super.key, required this.width});
@@ -15,39 +15,47 @@ class TournamentsList extends StatelessWidget {
     final service = context.watch<TournamentService>();
     final data = context.watch<TournamentListData>();
     return FutureBuilder(
-        future: service.getUserTournaments(),
-        builder: (context, snapshot) {
-          return Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                ),
-                borderRadius: BorderRadius.circular(15)),
-            width: width,
-            height: height * 0.8,
-            child: CustomScrollView(
-              slivers: [
-                SliverList.separated(
-                  itemCount: data.tournaments!.length,
-                  itemBuilder: (context, index) => TournamentEntry(
-                    name: data.tournaments![index].name,
-                    type: data.tournaments![index].type!,
-                    id: data.tournaments![index].id,
-                  ),
-                  separatorBuilder: (context, _) => const SizedBox(
-                    height: 8,
-                  ),
-                )
-              ],
+      future: service.getUserTournaments(),
+      builder: (context, snapshot) {
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey,
             ),
-          );
-        });
+            borderRadius: BorderRadius.circular(
+              15,
+            ),
+          ),
+          width: width,
+          height: height * 0.8,
+          child: CustomScrollView(
+            slivers: [
+              SliverList.separated(
+                itemCount: data.tournaments!.length,
+                itemBuilder: (context, index) => TournamentEntry(
+                  name: data.tournaments![index].name,
+                  type: data.tournaments![index].type!,
+                  id: data.tournaments![index].id,
+                ),
+                separatorBuilder: (context, _) => const SizedBox(
+                  height: 8,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
 class TournamentEntry extends StatelessWidget {
-  const TournamentEntry(
-      {required this.name, required this.type, required this.id, super.key});
+  const TournamentEntry({
+    required this.name,
+    required this.type,
+    required this.id,
+    super.key,
+  });
 
   final String name;
   final String type;
@@ -62,7 +70,6 @@ class TournamentEntry extends StatelessWidget {
           context.push('/tournament/$id');
         },
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               name,

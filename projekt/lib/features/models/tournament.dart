@@ -1,16 +1,17 @@
 import '../tournament_page/models/sport_match.dart';
 
 class Tournament {
-  Tournament(
-      {required this.id,
-      required this.name,
-      required this.type,
-      required this.startDate,
-      required this.endDate,
-      required this.numOfPlayers,
-      required this.code,
-      this.userIds,
-      this.matches});
+  Tournament({
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.startDate,
+    required this.endDate,
+    required this.numOfPlayers,
+    required this.code,
+    this.userIds,
+    this.matches,
+  });
 
   final String id;
   final String name;

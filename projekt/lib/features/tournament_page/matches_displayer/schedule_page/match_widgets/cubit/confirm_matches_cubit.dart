@@ -5,11 +5,11 @@ import 'package:projekt/features/tournament_page/models/sport_match.dart';
 import '../../../../../services/tournament_service.dart';
 
 class ConfirmMatchesCubit extends Cubit<MatchState> {
-  ConfirmMatchesCubit(
-      {required this.tournamentService,
-      required this.authService,
-      required this.match})
-      : super(WaitingState()) {
+  ConfirmMatchesCubit({
+    required this.tournamentService,
+    required this.authService,
+    required this.match,
+  }) : super(WaitingState()) {
     checkAvailibility();
   }
 
@@ -18,15 +18,23 @@ class ConfirmMatchesCubit extends Cubit<MatchState> {
   final SportMatch match;
 
   Future<void> setMatchScore(
-      String tournamentId,
-      String matchId,
-      int roundNumber,
-      String score1,
-      String score2,
-      String player1Id,
-      String player2Id) async {
-    final success = await tournamentService.setMatchScore(tournamentId, matchId,
-        roundNumber, score1, score2, player1Id, player2Id);
+    String tournamentId,
+    String matchId,
+    int roundNumber,
+    String score1,
+    String score2,
+    String player1Id,
+    String player2Id,
+  ) async {
+    final success = await tournamentService.setMatchScore(
+      tournamentId,
+      matchId,
+      roundNumber,
+      score1,
+      score2,
+      player1Id,
+      player2Id,
+    );
     if (!success) {
       emit(ErrorState());
     } else {
@@ -35,8 +43,8 @@ class ConfirmMatchesCubit extends Cubit<MatchState> {
   }
 
   void checkAvailibility() {
-    String player1Id = match.player1Id;
-    String player2Id = match.player2Id;
+    final player1Id = match.player1Id;
+    final player2Id = match.player2Id;
     if (authService.currentUser!.uid == player1Id ||
         authService.currentUser!.uid == player2Id) {
       emit(AvailableState());

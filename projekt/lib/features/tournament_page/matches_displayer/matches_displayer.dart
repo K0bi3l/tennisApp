@@ -3,8 +3,11 @@ import 'package:projekt/features/tournament_page/matches_displayer/schedule_page
 import 'package:projekt/features/tournament_page/models/sport_match.dart';
 
 class MatchesDisplayer extends StatefulWidget {
-  const MatchesDisplayer(
-      {super.key, required this.matches, required this.width});
+  const MatchesDisplayer({
+    super.key,
+    required this.matches,
+    required this.width,
+  });
 
   final double width;
 
@@ -50,7 +53,7 @@ class MatchesDisplayerState extends State<MatchesDisplayer>
     if (widget.matches == null) {
       return const Placeholder();
     }
-    double height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Stack(
@@ -92,29 +95,30 @@ class PageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: () => scroll(currentIndex, false),
-              icon: const Icon(
-                Icons.arrow_left_rounded,
-                size: 32,
-              ),
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            onPressed: () => scroll(currentIndex, false),
+            icon: const Icon(
+              Icons.arrow_left_rounded,
+              size: 32,
             ),
-            const SizedBox(
-              width: 20,
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          IconButton(
+            onPressed: () => scroll(currentIndex, true),
+            icon: const Icon(
+              Icons.arrow_right_rounded,
+              size: 32,
             ),
-            IconButton(
-              onPressed: () => scroll(currentIndex, true),
-              icon: const Icon(
-                Icons.arrow_right_rounded,
-                size: 32,
-              ),
-            ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -124,8 +128,11 @@ class CustomPageController extends PageController {
   final int maxScroll;
 
   @override
-  Future<void> animateToPage(int page,
-      {required Duration duration, required Curve curve}) async {
+  Future<void> animateToPage(
+    int page, {
+    required Duration duration,
+    required Curve curve,
+  }) async {
     if (page >= 0 && page <= maxScroll) {
       await super.animateToPage(page, duration: duration, curve: curve);
     }

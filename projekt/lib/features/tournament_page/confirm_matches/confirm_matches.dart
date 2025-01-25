@@ -1,10 +1,13 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:projekt/features/tournament_page/models/sport_match.dart';
-import 'package:animations/animations.dart';
 
 class ConfirmMatchesWidgetWrapper extends StatelessWidget {
-  const ConfirmMatchesWidgetWrapper(
-      {super.key, required this.tournamentId, required this.userId});
+  const ConfirmMatchesWidgetWrapper({
+    super.key,
+    required this.tournamentId,
+    required this.userId,
+  });
 
   final String tournamentId;
   final String userId;

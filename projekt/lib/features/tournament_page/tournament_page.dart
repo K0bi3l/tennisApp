@@ -1,14 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
+import 'package:projekt/features/services/tournament_service.dart';
 import 'package:projekt/features/tournament_page/confirm_matches/confirm_matches.dart';
 import 'package:projekt/features/tournament_page/matches_displayer/matches_displayer.dart';
 import 'package:projekt/features/tournament_page/players_widget/widgets/players.dart';
-import 'package:projekt/features/services/tournament_service.dart';
-import '../models/tournament.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'cubit/tournament_cubit.dart';
 import 'package:projekt/features/tournament_page/tournament_table/widgets/tournament_table.dart';
+import '../models/tournament.dart';
+import 'cubit/tournament_cubit.dart';
 
 class TournamentPage extends StatelessWidget {
   const TournamentPage({required this.tournamentId, super.key});
@@ -60,7 +60,8 @@ class ReadyTournamentPageState extends State<ReadyTournamentPage> {
           return BigReadyTournamentPage(tournamentInfo: widget.tournamentInfo);
         } else {
           return SmallReadyTournamentPage(
-              tournamentInfo: widget.tournamentInfo);
+            tournamentInfo: widget.tournamentInfo,
+          );
         }
       },
     );
@@ -93,8 +94,11 @@ class SmallReadyTournamentPageState extends State<SmallReadyTournamentPage> {
       _selectedIndex = index;
     });
 
-    _pageController.animateToPage(index,
-        duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.decelerate,
+    );
   }
 
   @override
@@ -111,8 +115,9 @@ class SmallReadyTournamentPageState extends State<SmallReadyTournamentPage> {
         children: [
           SmallPagesWrapper(
             child: MatchesDisplayer(
-                matches: widget.tournamentInfo.matches ?? [],
-                width: 0.7 * MediaQuery.of(context).size.width),
+              matches: widget.tournamentInfo.matches ?? [],
+              width: 0.7 * MediaQuery.of(context).size.width,
+            ),
           ),
           SmallPagesWrapper(
             child: TournamentTable(
@@ -129,18 +134,20 @@ class SmallReadyTournamentPageState extends State<SmallReadyTournamentPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.sports_tennis),
-              label: 'Mecze',
-              backgroundColor: Colors.red),
+            icon: Icon(Icons.sports_tennis),
+            label: 'Mecze',
+            backgroundColor: Colors.red,
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.table_bar),
             label: 'tabela',
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.verified_user),
-              label: 'gracze',
-              backgroundColor: Colors.blue),
+            icon: Icon(Icons.verified_user),
+            label: 'gracze',
+            backgroundColor: Colors.blue,
+          ),
         ],
         selectedItemColor: Colors.amber,
         currentIndex: _selectedIndex,
@@ -162,10 +169,11 @@ class SmallPagesWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 40, top: 40),
-        child: Center(
-          child: child,
-        ));
+      padding: const EdgeInsets.only(bottom: 40, top: 40),
+      child: Center(
+        child: child,
+      ),
+    );
   }
 }
 
@@ -197,8 +205,9 @@ class BigReadyTournamentPageState extends State<BigReadyTournamentPage> {
               playersInfo: widget.tournamentInfo.userIds!,
             ),
             MatchesDisplayer(
-                matches: widget.tournamentInfo.matches,
-                width: 0.4 * MediaQuery.of(context).size.width),
+              matches: widget.tournamentInfo.matches,
+              width: 0.4 * MediaQuery.of(context).size.width,
+            ),
             TournamentTable(
               playersCount: widget.tournamentInfo.numOfPlayers,
               tournamentId: widget.tournamentInfo.id,
@@ -208,8 +217,9 @@ class BigReadyTournamentPageState extends State<BigReadyTournamentPage> {
         ),
       ),
       floatingActionButton: ConfirmMatchesWidgetWrapper(
-          tournamentId: widget.tournamentInfo.id,
-          userId: authService.currentUser!.uid),
+        tournamentId: widget.tournamentInfo.id,
+        userId: authService.currentUser!.uid,
+      ),
     );
   }
 }
@@ -222,14 +232,14 @@ class NotReadyTournamentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.center,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Text(
-                'Turniej nie może wystartować. Dołączyło ${state.participantsReady} z ${state.participants} uczestników'),
+              'Turniej nie może wystartować. Dołączyło ${state.participantsReady} z ${state.participants} uczestników',
+            ),
           ),
         ),
       ),

@@ -26,7 +26,9 @@ class AuthService {
     }
     try {
       await firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
     } catch (e) {
       FlutterError.reportError(FlutterErrorDetails(exception: e));
     }
@@ -41,7 +43,9 @@ class AuthService {
 
     try {
       await firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       return SignInResult.success;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {

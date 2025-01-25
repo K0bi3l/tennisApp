@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TableEntry extends StatelessWidget {
-  const TableEntry(
-      {super.key,
-      required this.position,
-      required this.name,
-      required this.color,
-      required this.points,
-      required this.wins,
-      required this.ties,
-      required this.loses});
+  const TableEntry({
+    super.key,
+    required this.position,
+    required this.name,
+    required this.color,
+    required this.points,
+    required this.wins,
+    required this.ties,
+    required this.loses,
+  });
 
   final String position;
   final String name;
@@ -24,8 +25,9 @@ class TableEntry extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       child: DecoratedBox(
         decoration: BoxDecoration(
-            border: Border.all(color: color, width: 2),
-            borderRadius: BorderRadius.circular(10)),
+          border: Border.all(color: color, width: 2),
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Table(
           columnWidths: const {
             0: FixedColumnWidth(20), // Pozycja

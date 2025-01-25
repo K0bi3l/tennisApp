@@ -1,19 +1,20 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/features/tournament_page/models/tournament_participant.dart';
 import '../basic_page/tournament_creating_form/providers/tournament_form_provider.dart';
 import '../models/tournament.dart';
-import 'package:flutter/foundation.dart';
 import '../tournament_page/models/sport_match.dart';
 import 'users_list_shuffler.dart';
 
 class TournamentService {
-  TournamentService(
-      {required this.db,
-      required this.authService,
-      required this.tournamentData});
+  TournamentService({
+    required this.db,
+    required this.authService,
+    required this.tournamentData,
+  });
 
   final FirebaseFirestore db;
   final AuthService authService;
@@ -30,11 +31,12 @@ class TournamentService {
   }
 
   Future<(String, String)> createTournament(
-      String? name,
-      TournamentType? type,
-      String numOfPlayers,
-      String startofTournament,
-      String endOfTournament) async {
+    String? name,
+    TournamentType? type,
+    String numOfPlayers,
+    String startofTournament,
+    String endOfTournament,
+  ) async {
     final random = Random();
     final code = random.nextInt(899999) + 100000;
     final docRef = await db.collection('tournaments').add({
@@ -65,7 +67,7 @@ class TournamentService {
         .collection('users')
         .doc(authService.currentUser!.uid)
         .collection('tournaments')
-        .doc(docRef.id.toString())
+        .doc(docRef.id)
         .set({
       'name': name,
       'id': docRef.id,
@@ -82,7 +84,7 @@ class TournamentService {
   Future<String> getUserName(String userId) async {
     final docRef = await db.collection('users').doc(userId).get();
 
-    return docRef.data()!['name'];
+    return docRef.data()!['name'] as String;
   }
 
   Future<bool> joinTournament(String code) async {
@@ -96,7 +98,7 @@ class TournamentService {
           .where('code', isEqualTo: code)
           .get();
 
-      for (DocumentSnapshot snap in query.docs) {
+      for (final DocumentSnapshot snap in query.docs) {
         tournamentId = snap.id;
       }
       if (tournamentId == '') {
@@ -111,8 +113,8 @@ class TournamentService {
       }
 
       final doc = db.collection('tournaments').doc(tournamentId);
-      await doc.get().then((DocumentSnapshot doc) async {
-        final data = doc.data() as Map<String, dynamic>;
+      await doc.get().then((doc) async {
+        final data = doc.data();
         final userName = await getUserName(authService.currentUser!.uid);
         await db
             .collection('tournaments')
@@ -133,23 +135,24 @@ class TournamentService {
             .collection('tournaments')
             .doc(tournamentId)
             .set({
-          'name': data['name'],
+          'name': data!['name'],
           'id': doc.id,
           'type': data['type'],
           'playersCount': data['playersCount'],
           'startDate': data['startDate'],
           'endDate': data['endDate'],
-          'code': code.toString(),
+          'code': code,
         });
 
         tournamentData.addTournament = Tournament(
-            code: code.toString(),
-            id: doc.id,
-            name: data['name'],
-            type: data['type'],
-            startDate: data['startDate'],
-            endDate: data['endDate'],
-            numOfPlayers: data['playersCount']);
+          code: code,
+          id: doc.id,
+          name: data['name'] as String,
+          type: data['type'] as String,
+          startDate: data['startDate'] as String,
+          endDate: data['endDate'] as String,
+          numOfPlayers: data['playersCount'] as int,
+        );
       });
       return true;
     } catch (e) {
@@ -166,19 +169,18 @@ class TournamentService {
           .collection('tournaments')
           .get();
 
-      final List<Map<String, dynamic>> t =
-          query.docs.map((doc) => doc.data()).toList();
+      final t = query.docs.map((doc) => doc.data()).toList();
 
       for (final tournament in t) {
         tournaments.add(
           Tournament(
-            name: tournament['name'],
-            type: tournament['type'],
-            id: tournament['id'],
-            numOfPlayers: tournament['playersCount'],
+            name: tournament['name'] as String,
+            type: tournament['type'] as String,
+            id: tournament['id'] as String,
+            numOfPlayers: tournament['playersCount'] as int,
             startDate: tournament['startDate'].toString(),
             endDate: tournament['endDate'].toString(),
-            code: tournament['code'],
+            code: tournament['code'] as String,
           ),
         );
       }
@@ -195,20 +197,21 @@ class TournamentService {
     try {
       final query = await db.collection('tournaments').doc(id).get();
       final data = query.data();
-      final List<(String, String)> users = await getTournamentUsers(id);
+      final users = await getTournamentUsers(id);
       final ids = users.map((item) => item.$1).toList();
       //final matches = [await getScheduledMatchesForRound(id, 1)];
       final matches = await getScheduledMatches(id);
       final tournament = Tournament(
-          id: id,
-          userIds: ids,
-          code: data!['code'],
-          startDate: data['startDate'].toString(),
-          endDate: data['endDate'].toString(),
-          type: null,
-          name: data['name'],
-          numOfPlayers: data['playersCount'],
-          matches: matches);
+        id: id,
+        userIds: ids,
+        code: data!['code'] as String,
+        startDate: data['startDate'].toString(),
+        endDate: data['endDate'].toString(),
+        type: null,
+        name: data['name'] as String,
+        numOfPlayers: data['playersCount'] as int,
+        matches: matches,
+      );
       return tournament;
     } catch (e) {
       FlutterError.reportError(FlutterErrorDetails(exception: e));
@@ -217,7 +220,8 @@ class TournamentService {
   }
 
   Future<List<(String name, String id)>> getTournamentUsers(
-      String tournamentId) async {
+    String tournamentId,
+  ) async {
     try {
       final query = await db
           .collection('tournaments')
@@ -227,9 +231,10 @@ class TournamentService {
 
       List<(String, String)> users = [];
 
-      for (DocumentSnapshot snapshot in query.docs) {
+      for (final DocumentSnapshot snapshot in query.docs) {
         users.add(
-            ((snapshot.data() as Map<String, dynamic>)['name'], snapshot.id));
+          ((snapshot.data()! as Map<String, dynamic>)['name'], snapshot.id),
+        );
       }
 
       return users;
@@ -240,7 +245,8 @@ class TournamentService {
   }
 
   Future<(int currentCount, int count)> getTournamentUsersCount(
-      String id) async {
+    String id,
+  ) async {
     try {
       final currentParticipantsList = await getTournamentUsers(id);
       final currentCount = currentParticipantsList.length;
@@ -257,8 +263,8 @@ class TournamentService {
   }
 
   Future<void> setScheduledMatchs(String tournamentId) async {
-    UsersListShuffler shuffler = UsersListShuffler();
-    List<(String, String)> users = await getTournamentUsers(tournamentId);
+    final shuffler = UsersListShuffler();
+    final users = await getTournamentUsers(tournamentId);
     int usersCount = users.length;
     if (usersCount % 2 != 0) {
       usersCount++;
@@ -266,8 +272,8 @@ class TournamentService {
     }
     final userNames = users.map((user) => user.$1).toList();
     final userIds = users.map((user) => user.$2).toList();
-    int rounds = usersCount - 1;
-    int matchesInRoundCount = usersCount * 0.5 as int;
+    final rounds = usersCount - 1;
+    final matchesInRoundCount = usersCount * 0.5 as int;
     try {
       for (int i = 0; i < rounds; i++) {
         for (int j = 0; j < matchesInRoundCount; j++) {
@@ -298,7 +304,8 @@ class TournamentService {
   }
 
   Future<List<List<SportMatch>>> getScheduledMatches(
-      String tournamentId) async {
+    String tournamentId,
+  ) async {
     try {
       final int roundsCount = await getTournamentRoundsCount(tournamentId);
       List<List<SportMatch>> matches = [];
@@ -316,12 +323,12 @@ class TournamentService {
               (doc) => SportMatch(
                 tournamentId: tournamentId,
                 id: doc.id,
-                player1: doc.data()['player1'],
-                player1Id: doc.data()['player1Id'],
-                player2: doc.data()['player2'],
-                player2Id: doc.data()['player2Id'],
-                result1: doc.data()['result1'],
-                result2: doc.data()['result2'],
+                player1: doc.data()['player1'] as String,
+                player1Id: doc.data()['player1Id'] as String,
+                player2: doc.data()['player2'] as String,
+                player2Id: doc.data()['player2Id'] as String,
+                result1: doc.data()['result1'] as int,
+                result2: doc.data()['result2'] as int,
               ),
             )
             .toList();
@@ -342,9 +349,9 @@ class TournamentService {
     if (!docRef.exists) {
       return 0;
     }
-    final int count = docRef.data()!['playersCount'];
+    final count = docRef.data()!['playersCount'] as int;
 
-    return count % 2 == 0 ? count - 1 : count;
+    return count.isEven ? count - 1 : count;
   }
 
   /*Future<List<SportMatch>> getScheduledMatchesForRound(
@@ -373,13 +380,14 @@ class TournamentService {
   Future<bool> isTournamentScheduled(String tournamentId) async {
     final docRef = await db.collection('tournaments').doc(tournamentId).get();
 
-    final bool isTournamentScheduled = docRef.data()!['isScheduled'];
+    final isTournamentScheduled = docRef.data()!['isScheduled'] as bool;
 
     return isTournamentScheduled;
   }
 
   Future<List<TournamentParticipant>> getTournamentTable(
-      String tournamentId) async {
+    String tournamentId,
+  ) async {
     List<TournamentParticipant> table = [];
 
     final query = await db
@@ -389,12 +397,15 @@ class TournamentService {
         .get();
 
     table = query.docs
-        .map((doc) => TournamentParticipant(
-            name: doc.data()['name'],
-            wins: doc.data()['wins'],
-            loses: doc.data()['loses'],
-            ties: doc.data()['ties'],
-            points: doc.data()['points']))
+        .map(
+          (doc) => TournamentParticipant(
+            name: doc.data()['name'] as String,
+            wins: doc.data()['wins'] as int,
+            loses: doc.data()['loses'] as int,
+            ties: doc.data()['ties'] as int,
+            points: doc.data()['points'] as int,
+          ),
+        )
         .toList();
     table.sort((a, b) => b.points.compareTo(a.points));
 
@@ -402,17 +413,18 @@ class TournamentService {
   }
 
   Future<bool> setMatchScore(
-      String tournamentId,
-      String matchId,
-      int roundNumber,
-      String score1,
-      String score2,
-      String player1Id,
-      String player2Id) async {
+    String tournamentId,
+    String matchId,
+    int roundNumber,
+    String score1,
+    String score2,
+    String player1Id,
+    String player2Id,
+  ) async {
     try {
       final int firstScore = int.parse(score1);
       final int secondScore = int.parse(score2);
-      String winnerId = firstScore > secondScore ? player1Id : player2Id;
+      final winnerId = firstScore > secondScore ? player1Id : player2Id;
       String loserId = firstScore > secondScore ? player2Id : player1Id;
       await addPointsToPlayers(tournamentId, winnerId, loserId);
       await db
@@ -434,7 +446,10 @@ class TournamentService {
   }
 
   Future<void> addPointsToPlayers(
-      String tournamentId, String winnerId, String loserId) async {
+    String tournamentId,
+    String winnerId,
+    String loserId,
+  ) async {
     var docRef = await db
         .collection('tournaments')
         .doc(tournamentId)
@@ -442,8 +457,8 @@ class TournamentService {
         .doc(winnerId)
         .get();
 
-    final int wins = docRef.data()!['wins'];
-    final int points = docRef.data()!['points'];
+    final wins = docRef.data()!['wins'] as int;
+    final points = docRef.data()!['points'] as int;
 
     docRef = await db
         .collection('tournaments')
@@ -452,7 +467,7 @@ class TournamentService {
         .doc(loserId)
         .get();
 
-    final int loses = docRef.data()!['loses'];
+    final loses = docRef.data()!['loses'] as int;
 
     await db
         .collection('tournaments')
@@ -475,7 +490,10 @@ class TournamentService {
   }
 
   Future<bool> checkMatchScore(
-      String tournamentId, int roundNumber, String matchId) async {
+    String tournamentId,
+    int roundNumber,
+    String matchId,
+  ) async {
     final docRef = await db
         .collection('tournaments')
         .doc(tournamentId)

@@ -1,13 +1,13 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:projekt/features/basic_page/join_tournament/widgets/tournaments_list.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
+import 'package:projekt/features/models/tournament.dart';
 import 'package:projekt/features/services/tournament_service.dart';
 import 'package:provider/provider.dart';
-import 'package:projekt/features/models/tournament.dart';
 
 void main() {
   group('', () {
@@ -26,9 +26,8 @@ void main() {
       authService = AuthService(firebaseAuth: mockAuthentication);
     });
 
-    testWidgets('Test widoczności turnieju wczytanego z bazy ',
-        (WidgetTester tester) async {
-      mockDb
+    testWidgets('Test widoczności turnieju wczytanego z bazy ', (tester) async {
+      await mockDb
           .collection('users')
           .doc(user.uid)
           .collection('tournaments')
@@ -52,7 +51,10 @@ void main() {
               ),
               Provider(
                 create: (context) => TournamentService(
-                    db: mockDb, authService: authService, tournamentData: data),
+                  db: mockDb,
+                  authService: authService,
+                  tournamentData: data,
+                ),
               ),
             ],
             child: const TournamentsList(width: 1000),
@@ -68,7 +70,7 @@ void main() {
       expect(button, findsOneWidget);
     });
 
-    testWidgets('Test braku turniejów', (WidgetTester tester) async {
+    testWidgets('Test braku turniejów', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: MultiProvider(
@@ -78,7 +80,10 @@ void main() {
               ),
               Provider(
                 create: (context) => TournamentService(
-                    db: mockDb, authService: authService, tournamentData: data),
+                  db: mockDb,
+                  authService: authService,
+                  tournamentData: data,
+                ),
               ),
             ],
             child: const TournamentsList(width: 1000),
@@ -93,7 +98,7 @@ void main() {
     });
 
     testWidgets('Test widoczności turnieju dodanego przez dataProvider',
-        (WidgetTester tester) async {
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: MultiProvider(
@@ -103,7 +108,10 @@ void main() {
               ),
               Provider(
                 create: (context) => TournamentService(
-                    db: mockDb, authService: authService, tournamentData: data),
+                  db: mockDb,
+                  authService: authService,
+                  tournamentData: data,
+                ),
               ),
             ],
             child: const TournamentsList(width: 1000),
@@ -115,13 +123,14 @@ void main() {
       await tester.pump();
 
       data.addTournament = Tournament(
-          code: '234324',
-          name: 'abc',
-          startDate: DateTime.now().toString(),
-          endDate: DateTime.now().toString(),
-          type: 'League',
-          numOfPlayers: 4,
-          id: '1');
+        code: '234324',
+        name: 'abc',
+        startDate: DateTime.now().toString(),
+        endDate: DateTime.now().toString(),
+        type: 'League',
+        numOfPlayers: 4,
+        id: '1',
+      );
 
       await tester.pump();
 
@@ -130,8 +139,8 @@ void main() {
 
     testWidgets(
         'test połączenia wejścia z bazy danych i dodania przez dataSource',
-        (WidgetTester tester) async {
-      mockDb
+        (tester) async {
+      await mockDb
           .collection('users')
           .doc(user.uid)
           .collection('tournaments')
@@ -155,7 +164,10 @@ void main() {
               ),
               Provider(
                 create: (context) => TournamentService(
-                    db: mockDb, authService: authService, tournamentData: data),
+                  db: mockDb,
+                  authService: authService,
+                  tournamentData: data,
+                ),
               ),
             ],
             child: const TournamentsList(width: 1000),
@@ -167,13 +179,14 @@ void main() {
       await tester.pump();
 
       data.addTournament = Tournament(
-          code: '234324',
-          name: 'abc',
-          startDate: DateTime.now().toString(),
-          endDate: DateTime.now().toString(),
-          type: 'League',
-          numOfPlayers: 4,
-          id: '1');
+        code: '234324',
+        name: 'abc',
+        startDate: DateTime.now().toString(),
+        endDate: DateTime.now().toString(),
+        type: 'League',
+        numOfPlayers: 4,
+        id: '1',
+      );
 
       await tester.pump();
 

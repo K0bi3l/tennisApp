@@ -1,23 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
+import 'package:projekt/features/basic_page/tournament_creating_form/providers/tournament_form_provider.dart';
+import 'package:projekt/features/basic_page/tournament_creating_form/widgets/page1.dart';
 import 'package:projekt/features/basic_page/tournament_creating_form/widgets/page2.dart';
 import 'package:projekt/features/tournament_page/cubit/tournament_cubit.dart';
-import 'package:projekt/features/basic_page/tournament_creating_form/providers/tournament_form_provider.dart';
-import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/features/tournament_page/tournament_page.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:projekt/firebase_options.dart';
-import 'app.dart';
-import 'package:go_router/go_router.dart';
-import '../basic_page/widgets/basic_page.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../auth/cubit/auth_cubit.dart';
 import '../auth/services/auth_service.dart';
+import '../basic_page/widgets/basic_page.dart';
 import '../services/tournament_service.dart';
-import 'package:projekt/features/basic_page/tournament_creating_form/widgets/page1.dart';
+import 'app.dart';
 
 void main() {
   runApp(const _App());
@@ -58,8 +60,9 @@ class _AppState extends State<_App> {
                 ),
                 BlocProvider(
                   create: (context) => AuthCubit(
-                      authService: context.read(),
-                      tournamentService: context.read()),
+                    authService: context.read(),
+                    tournamentService: context.read(),
+                  ),
                 ),
                 ChangeNotifierProvider(
                   create: (context) => MyFormData(),
@@ -79,10 +82,11 @@ class _AppState extends State<_App> {
                 ],
                 title: 'Tennis App',
                 theme: ThemeData.from(
-                    colorScheme: ColorScheme.fromSeed(
-                  seedColor: Colors.purple,
-                  dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
-                )),
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: Colors.purple,
+                    dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
+                  ),
+                ),
               ),
             ),
           _ => const MaterialApp(
@@ -121,7 +125,7 @@ final _router = GoRouter(
         GoRoute(
           path: 'tournament/:tournamentId',
           builder: (context, state) {
-            final String? id = state.pathParameters['tournamentId'];
+            final id = state.pathParameters['tournamentId'];
             return BlocProvider(
               create: (_) =>
                   TournamentCubit(service: context.read(), tournamentId: id),

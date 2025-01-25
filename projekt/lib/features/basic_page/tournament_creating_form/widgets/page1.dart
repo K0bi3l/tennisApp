@@ -2,8 +2,8 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../providers/tournament_form_provider.dart';
 import 'package:go_router/go_router.dart';
+import '../providers/tournament_form_provider.dart';
 
 const List<String> list = ['puchar', 'turniej ligowy'];
 
@@ -15,7 +15,7 @@ class Page1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MyFormData data = context.watch<MyFormData>();
+    final data = context.watch<MyFormData>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -28,7 +28,6 @@ class Page1 extends StatelessWidget {
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextFormField(
                 controller: _tournamentNameController,
@@ -55,7 +54,7 @@ class Page1 extends StatelessWidget {
                     {
                       data.name = _tournamentNameController.text,
                       context.push('/create/stage2'),
-                    }
+                    },
                 },
                 child: const Text('Przejdź dalej'),
               ),
@@ -77,8 +76,9 @@ class TournamentDropdownMenu extends StatefulWidget {
 typedef MenuEntry = DropdownMenuEntry<String>;
 
 class TournamentDropdownMenuState extends State<TournamentDropdownMenu> {
-  final List<MenuEntry> menuEntries = UnmodifiableListView<MenuEntry>(list
-      .map<MenuEntry>((String name) => MenuEntry(value: name, label: name)));
+  final List<MenuEntry> menuEntries = UnmodifiableListView<MenuEntry>(
+    list.map<MenuEntry>((name) => MenuEntry(value: name, label: name)),
+  );
 
   late String dropdownValue;
 
@@ -95,7 +95,7 @@ class TournamentDropdownMenuState extends State<TournamentDropdownMenu> {
     return DropdownMenu(
       dropdownMenuEntries: menuEntries,
       initialSelection: dropdownValue,
-      onSelected: (String? value) {
+      onSelected: (value) {
         setState(
           () {
             dropdownValue = value!;

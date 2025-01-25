@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../services/tournament_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../providers/tournament_form_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../../services/tournament_service.dart';
+
+import '../providers/tournament_form_provider.dart';
 
 class LeagueTournamentPage2 extends StatefulWidget {
   const LeagueTournamentPage2({super.key});
@@ -23,7 +24,7 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
   String? errorMessage;
 
   Future<DateTime?> _selectDateEnd(BuildContext context) async {
-    final DateTime? d = await showDatePicker(
+    final d = await showDatePicker(
       context: context,
       initialDate: firstDate,
       firstDate: firstDate!,
@@ -37,7 +38,7 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
   }
 
   Future<DateTime?> _selectDateStart(BuildContext context) async {
-    final DateTime? d = await showDatePicker(
+    final d = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
@@ -66,7 +67,6 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DecoratedBox(
@@ -75,7 +75,6 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Padding(
                         padding: EdgeInsets.all(10),
@@ -84,11 +83,10 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                       ElevatedButton(
                         onPressed: () async {
                           try {
-                            DateTime? d = await _selectDateStart(context);
+                            final d = await _selectDateStart(context);
                             if (d != null) {
-                              final DateFormat formatter =
-                                  DateFormat('dd-MM-yyyy');
-                              final String formatted = formatter.format(d);
+                              final formatter = DateFormat('dd-MM-yyyy');
+                              final formatted = formatter.format(d);
                               final date = d.add(
                                 const Duration(days: 1),
                               );
@@ -98,20 +96,21 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                               });
                             }
                           } catch (e) {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Text(
-                                  e.toString(),
+                            if (context.mounted) {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    e.toString(),
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
                           }
                         },
                         child: Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(_selectedBeginningDate),
                               const Icon(Icons.calendar_today),
@@ -123,11 +122,10 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                       ElevatedButton(
                         onPressed: firstDate != null
                             ? () async {
-                                DateTime? d = await _selectDateEnd(context);
+                                final d = await _selectDateEnd(context);
                                 if (d != null) {
-                                  final DateFormat formatter =
-                                      DateFormat('dd-MM-yyyy');
-                                  final String formatted = formatter.format(d);
+                                  final formatter = DateFormat('dd-MM-yyyy');
+                                  final formatted = formatter.format(d);
                                   setState(() {
                                     _selectedEndingDate = formatted;
                                     lastDate = d;
@@ -137,28 +135,29 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                             : null,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(_selectedEndingDate),
                             const Icon(Icons.calendar_today),
                           ],
                         ),
                       ),
-                      Builder(builder: (context) {
-                        return errorMessage == null
-                            ? const SizedBox(height: 10)
-                            : Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Center(
-                                  child: Text(
-                                    errorMessage!,
-                                    style: const TextStyle(
-                                      color: Colors.red,
+                      Builder(
+                        builder: (context) {
+                          return errorMessage == null
+                              ? const SizedBox(height: 10)
+                              : Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Center(
+                                    child: Text(
+                                      errorMessage!,
+                                      style: const TextStyle(
+                                        color: Colors.red,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                      }),
+                                );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -209,28 +208,34 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                             errorMessage = null;
                           }
                           (id, code) = await service.createTournament(
-                              data.name,
-                              data.type,
-                              numberController.text,
-                              _selectedBeginningDate,
-                              _selectedEndingDate);
-
-                          await showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Udało się utworzyć turniej!'),
-                              content: Text(
-                                  'Oto kod dołączenia do turnieju: $code. Przekaż go uczestnikom, aby mogli do niego dołączyć'),
-                            ),
+                            data.name,
+                            data.type,
+                            numberController.text,
+                            _selectedBeginningDate,
+                            _selectedEndingDate,
                           );
-                          await context.push('/tournament/$id');
+                          if (context.mounted) {
+                            await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title:
+                                    const Text('Udało się utworzyć turniej!'),
+                                content: Text(
+                                  'Oto kod dołączenia do turnieju: $code. Przekaż go uczestnikom, aby mogli do niego dołączyć',
+                                ),
+                              ),
+                            );
+                            await context.push('/tournament/$id');
+                          }
                         }
                       } catch (e) {
-                        showDialog(
-                          context: context,
-                          builder: (context) =>
-                              AlertDialog(title: Text(e.toString())),
-                        );
+                        if (context.mounted) {
+                          await showDialog(
+                            context: context,
+                            builder: (context) =>
+                                AlertDialog(title: Text(e.toString())),
+                          );
+                        }
                       }
                     },
                     child: const Text('Utwórz turniej'),

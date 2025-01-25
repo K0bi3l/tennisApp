@@ -1,8 +1,8 @@
-import 'package:projekt/features/services/tournament_service.dart';
 import 'dart:async';
-import '../services/auth_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:projekt/features/services/tournament_service.dart';
+import '../services/auth_service.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit({required this.authService, required this.tournamentService})
@@ -40,8 +40,11 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authService.signUpWithEmail(email, password);
     if (result == true) {
       await authService.signInWithEmail(email, password);
-      tournamentService.addUser(
-          email, password, name); //przenieść do auth service
+      await tournamentService.addUser(
+        email,
+        password,
+        name,
+      ); //przenieść do auth service
       emit(SignedOutState());
     } else {
       emit(SignedOutState(error: 'nastąpił błąd przy rejestracji'));

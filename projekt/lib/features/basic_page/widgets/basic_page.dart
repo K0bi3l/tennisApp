@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projekt/features/auth/cubit/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:projekt/features/auth/cubit/auth_cubit.dart';
 import 'package:projekt/features/basic_page/join_tournament/widgets/create_tournament_button.dart';
 import 'package:projekt/features/basic_page/join_tournament/widgets/join_tournament_widget.dart';
 import 'package:projekt/features/basic_page/join_tournament/widgets/tournaments_list.dart';
@@ -45,8 +45,11 @@ class SmallBasicPageState extends State<SmallBasicPage> {
       _selectedIndex = index;
     });
 
-    _pageController.animateToPage(index,
-        duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.decelerate,
+    );
   }
 
   final _widgetOptions = <Widget>[
@@ -72,20 +75,22 @@ class SmallBasicPageState extends State<SmallBasicPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(Icons.data_array),
-                label: 'Twoje turnieje',
-                backgroundColor: Colors.red),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.abc),
-              label: 'Dodaj turniej',
-              backgroundColor: Colors.green,
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber,
-          onTap: _onItemTapped),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.data_array),
+            label: 'Twoje turnieje',
+            backgroundColor: Colors.red,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.abc),
+            label: 'Dodaj turniej',
+            backgroundColor: Colors.green,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }
@@ -99,7 +104,6 @@ class SmallBasicPage2 extends StatelessWidget {
       padding: const EdgeInsets.all(30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const CreateTournamentButton(),
           const SizedBox(
@@ -119,13 +123,15 @@ class SmallBasicPage1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Column(children: [
-        const Padding(
-          padding: EdgeInsets.only(bottom: 15),
-          child: Text("Twoje turnieje:"),
-        ),
-        TournamentsList(width: MediaQuery.of(context).size.width * 0.7),
-      ]),
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(bottom: 15),
+            child: Text('Twoje turnieje:'),
+          ),
+          TournamentsList(width: MediaQuery.of(context).size.width * 0.7),
+        ],
+      ),
     );
   }
 }
@@ -138,55 +144,57 @@ class BigBasicPage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final authCubit = context.watch<AuthCubit>();
     return Scaffold(
-        appBar: AppBar(
-          title: Center(
-            child: Text('Jesteś zalogowany jako ${authCubit.userEmail}'),
-          ),
-        ), //mozna tu zmienic
-        body: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 100),
-                      child: Column(children: [
+      appBar: AppBar(
+        title: Center(
+          child: Text('Jesteś zalogowany jako ${authCubit.userEmail}'),
+        ),
+      ), //mozna tu zmienic
+      body: Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 100),
+                    child: Column(
+                      children: [
                         const Padding(
                           padding: EdgeInsets.only(bottom: 15),
-                          child: Text("Twoje turnieje:"),
+                          child: Text('Twoje turnieje:'),
                         ),
                         TournamentsList(width: width * 0.4),
-                      ]),
+                      ],
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const CreateTournamentButton(),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            JoinTournamentWidget(),
-                          ],
-                        ),
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CreateTournamentButton(),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          JoinTournamentWidget(),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const Spacer(),
-              TextButton(
-                  onPressed: () => authCubit.signOut(),
-                  child: const Text('Wyloguj się')),
-            ],
-          ),
-        ));
+            ),
+            const Spacer(),
+            TextButton(
+              onPressed: () => authCubit.signOut(),
+              child: const Text('Wyloguj się'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -31,16 +31,16 @@ class OpenMatchEntry extends StatelessWidget {
       child: Form(
         key: formKey,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => context.pop(),
-                  )),
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => context.pop(),
+                ),
+              ),
               const Text(
                 'Dodaj wynik meczu',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -122,27 +122,33 @@ class OpenMatchEntry extends StatelessWidget {
                               try {
                                 final result =
                                     await tournamentService.setMatchScore(
-                                        match.tournamentId,
-                                        match.id,
-                                        roundNumber,
-                                        _result1Controller.text,
-                                        _result2Controller.text,
-                                        match.player1Id,
-                                        match.player2Id);
+                                  match.tournamentId,
+                                  match.id,
+                                  roundNumber,
+                                  _result1Controller.text,
+                                  _result2Controller.text,
+                                  match.player1Id,
+                                  match.player2Id,
+                                );
                                 if (result == false) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => const SnackBar(
-                                      content:
-                                          Text('Nie udało się dodać wyniku'),
-                                    ),
-                                  );
+                                  if (context.mounted) {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) => const SnackBar(
+                                        content:
+                                            Text('Nie udało się dodać wyniku'),
+                                      ),
+                                    );
+                                  }
                                 } else {
-                                  context.pop();
+                                  if (context.mounted) {
+                                    context.pop();
+                                  }
                                 }
                               } catch (e) {
                                 FlutterError.reportError(
-                                    FlutterErrorDetails(exception: e));
+                                  FlutterErrorDetails(exception: e),
+                                );
                               }
                             }
                           }

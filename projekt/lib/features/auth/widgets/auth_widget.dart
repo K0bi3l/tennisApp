@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projekt/features/auth/cubit/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:projekt/features/auth/cubit/auth_cubit.dart';
 
 class AuthWidget extends StatefulWidget {
   const AuthWidget({super.key});
@@ -24,7 +24,7 @@ class AuthWidgetState extends State<AuthWidget> {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Form(
             key: _formKey,
             child: Column(
@@ -108,10 +108,15 @@ class AuthWidgetState extends State<AuthWidget> {
                       try {
                         if (_isLogin) {
                           authCubit.signInWithEmail(
-                              _emailController.text, _passwordController.text);
+                            _emailController.text,
+                            _passwordController.text,
+                          );
                         } else {
-                          authCubit.signUp(_emailController.text,
-                              _passwordController.text, _nameController.text);
+                          authCubit.signUp(
+                            _emailController.text,
+                            _passwordController.text,
+                            _nameController.text,
+                          );
                         }
                       } catch (e) {
                         showDialog(
@@ -130,9 +135,11 @@ class AuthWidgetState extends State<AuthWidget> {
                       _isLogin = !_isLogin;
                     });
                   },
-                  child: Text(_isLogin
-                      ? 'Nie masz konta? Zarejestruj się'
-                      : 'Masz już konto? Zaloguj się'),
+                  child: Text(
+                    _isLogin
+                        ? 'Nie masz konta? Zarejestruj się'
+                        : 'Masz już konto? Zaloguj się',
+                  ),
                 ),
               ],
             ),

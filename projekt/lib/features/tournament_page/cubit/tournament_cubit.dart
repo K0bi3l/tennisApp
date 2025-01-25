@@ -1,6 +1,6 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:projekt/features/services/tournament_service.dart';
 
 class TournamentCubit extends Cubit<TournamentState> {
@@ -8,7 +8,8 @@ class TournamentCubit extends Cubit<TournamentState> {
       : super(TournamentLoading()) {
     if (tournamentId == null) {
       FlutterError.reportError(
-          FlutterErrorDetails(exception: Exception('bład w cubicie')));
+        FlutterErrorDetails(exception: Exception('bład w cubicie')),
+      );
     }
     checkState();
   }
@@ -26,14 +27,18 @@ class TournamentCubit extends Cubit<TournamentState> {
         await service.getTournamentUsersCount(tournamentId!);
 
     if (count == currentCount) {
-      bool isScheduled = await service.isTournamentScheduled(tournamentId!);
+      final isScheduled = await service.isTournamentScheduled(tournamentId!);
       if (!isScheduled) {
         await service.setScheduledMatchs(tournamentId!);
       }
       emit(TournamentReady());
     } else {
-      emit(TournamentNotReady(
-          participantsReady: currentCount, participants: count));
+      emit(
+        TournamentNotReady(
+          participantsReady: currentCount,
+          participants: count,
+        ),
+      );
     }
   }
 }
@@ -41,8 +46,10 @@ class TournamentCubit extends Cubit<TournamentState> {
 sealed class TournamentState with EquatableMixin {}
 
 class TournamentNotReady extends TournamentState {
-  TournamentNotReady(
-      {required this.participantsReady, required this.participants});
+  TournamentNotReady({
+    required this.participantsReady,
+    required this.participants,
+  });
 
   final int participantsReady;
   final int participants;

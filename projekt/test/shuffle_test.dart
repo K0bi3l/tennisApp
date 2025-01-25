@@ -3,13 +3,13 @@ import 'package:projekt/features/services/users_list_shuffler.dart';
 
 void main() {
   test('test pojedynczego shufflowania zawodników w turnieju', () {
-    UsersListShuffler shuffler = UsersListShuffler();
+    final shuffler = UsersListShuffler();
 
     List<(String, String)> users = [
       ('John', 'John'),
       ('Mary', 'Mary'),
       ('Michael', 'Michael'),
-      ('Tomasz', 'Tomasz')
+      ('Tomasz', 'Tomasz'),
     ];
     List<(String, String)> newUsers = List.from(users);
 
@@ -24,10 +24,10 @@ void main() {
       ('John', 'John'),
       ('Mary', 'Mary'),
       ('Michael', 'Michael'),
-      ('Tomasz', 'Tomasz')
+      ('Tomasz', 'Tomasz'),
     ];
     List<(String, String)> newUsers = List.from(users);
-    bool flag = true;
+    var flag = true;
     for (int i = 0; i < users.length - 1; i++) {
       shuffler.shuffle(newUsers);
     }
