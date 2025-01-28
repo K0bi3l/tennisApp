@@ -234,14 +234,17 @@ class NotReadyTournamentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              'Turniej nie może wystartować. Dołączyło ${state.participantsReady} z ${state.participants} uczestników',
+    return Scaffold(
+      appBar: AppBar(),
+      body: Align(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Text(
+                'Turniej nie może wystartować. Dołączyło ${state.participantsReady} z ${state.participants} uczestników',
+              ),
             ),
           ),
         ),

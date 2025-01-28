@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 enum TournamentType { league, bracket }
 
 class MyFormData extends ChangeNotifier {
+  MyFormData() {
+    type = TournamentType.bracket;
+  }
   String? _name;
   String? get name => _name;
   set name(String? value) {

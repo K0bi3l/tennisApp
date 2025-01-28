@@ -35,7 +35,7 @@ class SchedulePage extends StatelessWidget {
               width: 700,
               child: CustomScrollView(
                 slivers: [
-                  SliverList.builder(
+                  SliverList.separated(
                     itemCount: matches.length,
                     itemBuilder: (context, index) {
                       return MatchEntryWrapper(
@@ -44,6 +44,9 @@ class SchedulePage extends StatelessWidget {
                         closedChild: MatchEntry(match: matches[index]),
                       );
                     },
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 10,
+                    ),
                   ),
                 ],
               ),

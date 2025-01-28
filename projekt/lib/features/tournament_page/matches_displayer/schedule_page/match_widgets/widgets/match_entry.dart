@@ -25,7 +25,7 @@ class MatchEntryWrapper extends StatelessWidget {
       closedColor: Theme.of(context).canvasColor,
       openElevation: 0,
       closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(50),
       ),
       openBuilder: (context, closedContainer) {
         return BlocProvider(

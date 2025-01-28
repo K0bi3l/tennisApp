@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:projekt/features/auth/cubit/auth_cubit.dart';
-import 'package:projekt/features/basic_page/join_tournament/widgets/create_tournament_button.dart';
-import 'package:projekt/features/basic_page/join_tournament/widgets/join_tournament_widget.dart';
-import 'package:projekt/features/basic_page/join_tournament/widgets/tournaments_list.dart';
+import 'package:projekt/features/basic_page/join_and_create_tournaments/widgets/create_tournament_button.dart';
+import 'package:projekt/features/basic_page/join_and_create_tournaments/widgets/join_tournament_widget.dart';
+import 'package:projekt/features/basic_page/join_and_create_tournaments/widgets/tournaments_list.dart';
 
 class BasicPage extends StatelessWidget {
   const BasicPage({super.key});
@@ -62,8 +62,23 @@ class SmallBasicPageState extends State<SmallBasicPage> {
     final authCubit = context.watch<AuthCubit>();
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text('${authCubit.userEmail}'),
+        title: Row(
+          children: [
+            Expanded(
+              child: Container(),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Text('${authCubit.userEmail}'),
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: () => authCubit.signOut(),
+              icon: const Icon(
+                Icons.logout,
+              ),
+            ),
+          ],
         ),
       ),
       body: Center(
@@ -145,10 +160,25 @@ class BigBasicPage extends StatelessWidget {
     final authCubit = context.watch<AuthCubit>();
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text('Jesteś zalogowany jako ${authCubit.userEmail}'),
+        title: Row(
+          children: [
+            Expanded(
+              child: Container(),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Text('Jesteś zalogowany jako ${authCubit.userEmail}'),
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: () => authCubit.signOut(),
+              icon: const Icon(
+                Icons.logout,
+              ),
+            ),
+          ],
         ),
-      ), //mozna tu zmienic
+      ),
       body: Center(
         child: Column(
           children: [

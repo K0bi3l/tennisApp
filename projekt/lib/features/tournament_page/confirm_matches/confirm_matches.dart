@@ -31,7 +31,12 @@ class ConfirmMatchesWidgetWrapper extends StatelessWidget {
         );
       },
       openBuilder: (context, closedContainer) {
-        return const Placeholder(); //ConfirmMatchesOpen(tournamentId: tournamentId, userId: userId);
+        return Scaffold(
+          appBar: AppBar(),
+          body: const Center(
+            child: Text('Do zrobienia'),
+          ),
+        ); //ConfirmMatchesOpen(tournamentId: tournamentId, userId: userId);
       },
     );
   }

@@ -91,7 +91,7 @@ class TournamentDropdownMenuState extends State<TournamentDropdownMenu> {
   @override
   Widget build(BuildContext context) {
     final data = context.watch<MyFormData>();
-    data.type = TournamentType.bracket;
+
     return DropdownMenu(
       dropdownMenuEntries: menuEntries,
       initialSelection: dropdownValue,

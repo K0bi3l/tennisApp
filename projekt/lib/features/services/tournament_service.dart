@@ -264,18 +264,18 @@ class TournamentService {
 
   Future<void> setScheduledMatchs(String tournamentId) async {
     final shuffler = UsersListShuffler();
-    final users = await getTournamentUsers(tournamentId);
+    List<(String, String)> users = await getTournamentUsers(tournamentId);
     int usersCount = users.length;
     if (usersCount % 2 != 0) {
       usersCount++;
       users.add(('pauza', 'pauza'));
     }
-    final userNames = users.map((user) => user.$1).toList();
-    final userIds = users.map((user) => user.$2).toList();
     final rounds = usersCount - 1;
-    final matchesInRoundCount = usersCount * 0.5;
     try {
       for (int i = 0; i < rounds; i++) {
+        final userNames = users.map((user) => user.$1).toList();
+        final userIds = users.map((user) => user.$2).toList();
+        final matchesInRoundCount = usersCount * 0.5;
         for (int j = 0; j < matchesInRoundCount; j++) {
           await db
               .collection('tournaments')

@@ -169,12 +169,15 @@ class LeagueTournamentPage2State extends State<LeagueTournamentPage2> {
                     label: Text('Podaj ilość uczestników'),
                   ),
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(3),
+                    LengthLimitingTextInputFormatter(2),
                     FilteringTextInputFormatter.allow(RegExp(r'\d*')),
                   ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Podaj ilość uczestników';
+                    }
+                    if (value.length == 2 && value[0] == '0') {
+                      return 'Podaj wartość, która nie zaczyna się od 0';
                     }
                     try {
                       final num = int.parse(value);

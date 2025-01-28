@@ -50,7 +50,12 @@ class AuthWidgetState extends State<AuthWidget> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () => context.pop(),
+                  onPressed: () {
+                    setState(() {
+                      _isLogin = true;
+                    });
+                    context.pop();
+                  },
                   child: const Text('Ok'),
                 ),
               ],

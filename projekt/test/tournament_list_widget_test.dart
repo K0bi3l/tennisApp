@@ -3,7 +3,7 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
-import 'package:projekt/features/basic_page/join_tournament/widgets/tournaments_list.dart';
+import 'package:projekt/features/basic_page/join_and_create_tournaments/widgets/tournaments_list.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/features/models/tournament.dart';
 import 'package:projekt/features/services/tournament_service.dart';
