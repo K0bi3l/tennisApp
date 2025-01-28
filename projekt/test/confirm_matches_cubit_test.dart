@@ -1,3 +1,4 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,6 +19,7 @@ void main() {
     late FakeFirebaseFirestore mockFirestore;
     late SportMatch mockMatch1;
     late SportMatch mockMatch2;
+    late SportMatch mockMatch3;
 
     setUp(() {
       mockUser1 = MockUser(uid: '12345', email: '12345@gmail.com');
@@ -39,6 +41,14 @@ void main() {
         id: 'match1',
         tournamentId: 'tournament1',
       );
+      mockMatch3 = SportMatch(
+        player1: '12345',
+        player2: 'pauza',
+        player1Id: '12345',
+        player2Id: 'pauza',
+        id: 'match2',
+        tournamentId: 'tournament1',
+      );
       mockFirestore = FakeFirebaseFirestore();
       mockFirestore
           .collection('tournaments')
@@ -52,6 +62,21 @@ void main() {
         'player2': '67890@gmail.com',
         'player1Id': '12345',
         'player2Id': '67890',
+        'result1': null,
+        'result2': null,
+      });
+      mockFirestore
+          .collection('tournaments')
+          .doc('tournament1')
+          .collection('rounds')
+          .doc('round 1')
+          .collection('matches')
+          .doc('match3')
+          .set({
+        'player1': '12345@gmail.com',
+        'player2': 'pauza',
+        'player1Id': '12345',
+        'player2Id': 'pauza',
         'result1': null,
         'result2': null,
       });
@@ -81,23 +106,25 @@ void main() {
       });
     });
 
-    test('test inicjalizacji z dobrym id ', () {
-      final mockAuth1 = MockFirebaseAuth(signedIn: true, mockUser: mockUser1);
-      final authService1 = AuthService(firebaseAuth: mockAuth1);
-      final tournamentService1 = TournamentService(
-        db: mockFirestore,
-        authService: authService1,
-        tournamentData: listData,
-      );
+    blocTest('test inicjalizacji z dobrym id ',
+        build: () {
+          final mockAuth1 =
+              MockFirebaseAuth(signedIn: true, mockUser: mockUser1);
+          final authService1 = AuthService(firebaseAuth: mockAuth1);
+          final tournamentService1 = TournamentService(
+            db: mockFirestore,
+            authService: authService1,
+            tournamentData: listData,
+          );
 
-      final cubit = ConfirmMatchesCubit(
-        tournamentService: tournamentService1,
-        authService: authService1,
-        match: mockMatch1,
-      );
-
-      expect(cubit.state, AvailableState());
-    });
+          return ConfirmMatchesCubit(
+            roundNumber: 1,
+            tournamentService: tournamentService1,
+            authService: authService1,
+            match: mockMatch1,
+          );
+        },
+        expect: () => [AvailableState()]);
 
     test('test inicjalizacji ze złym id', () {
       final mockAuth2 = MockFirebaseAuth(signedIn: true, mockUser: mockUser2);
@@ -108,6 +135,7 @@ void main() {
         tournamentData: listData,
       );
       final cubit = ConfirmMatchesCubit(
+        roundNumber: 1,
         tournamentService: tournamentService2,
         authService: authService2,
         match: mockMatch2,
@@ -126,6 +154,7 @@ void main() {
       );
 
       final cubit = ConfirmMatchesCubit(
+        roundNumber: 1,
         tournamentService: tournamentService1,
         authService: authService1,
         match: mockMatch1,
@@ -141,5 +170,29 @@ void main() {
       );
       expect(cubit.state, NotAvailableState());
     });
+
+    blocTest(
+      'Test wejścia do meczu pauzowanego',
+      build: () {
+        final mockAuth1 = MockFirebaseAuth(signedIn: true, mockUser: mockUser1);
+        final authService1 = AuthService(firebaseAuth: mockAuth1);
+        final tournamentService1 = TournamentService(
+          db: mockFirestore,
+          authService: authService1,
+          tournamentData: listData,
+        );
+        return ConfirmMatchesCubit(
+          roundNumber: 1,
+          tournamentService: tournamentService1,
+          authService: authService1,
+          match: mockMatch3,
+        );
+      },
+      act: (bloc) {
+        bloc.setMatchScore(
+            'tournament1', 'match3', 1, '2', '1', '12345', 'pauza');
+      },
+      expect: () => [ErrorState()],
+    );
   });
 }

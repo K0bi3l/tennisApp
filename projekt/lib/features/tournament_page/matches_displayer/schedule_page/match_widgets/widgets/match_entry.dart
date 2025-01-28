@@ -30,18 +30,26 @@ class MatchEntryWrapper extends StatelessWidget {
       openBuilder: (context, closedContainer) {
         return BlocProvider(
           create: (_) => ConfirmMatchesCubit(
-              tournamentService: context.watch(),
-              authService: context.watch(),
-              match: match),
+            roundNumber: roundNumber,
+            tournamentService: context.watch(),
+            authService: context.watch(),
+            match: match,
+          ),
           child: BlocBuilder<ConfirmMatchesCubit, MatchState>(
             builder: (context, state) {
               return switch (state) {
                 ErrorState() => const Placeholder(),
                 WaitingState() => const CircularProgressIndicator(),
                 NotAvailableState() => OpenMatchEntry(
-                    match: match, roundNumber: roundNumber, available: false),
+                    match: match,
+                    roundNumber: roundNumber,
+                    available: false,
+                  ),
                 AvailableState() => OpenMatchEntry(
-                    match: match, roundNumber: roundNumber, available: true),
+                    match: match,
+                    roundNumber: roundNumber,
+                    available: true,
+                  ),
               };
             },
           ),
@@ -66,7 +74,6 @@ class MatchEntry extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text('${match.player1} : ${match.player2}'),
           if (match.result1 == null || match.result2 == null)

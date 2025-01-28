@@ -57,12 +57,6 @@ class _AppState extends State<_App> {
                     tournamentData: context.read(),
                   ),
                 ),
-                BlocProvider(
-                  create: (context) => AuthCubit(
-                    authService: context.read(),
-                    tournamentService: context.read(),
-                  ),
-                ),
                 ChangeNotifierProvider(
                   create: (context) => MyFormData(),
                 ),
@@ -105,7 +99,13 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const App(), //MyApp(),
+      builder: (context, state) => BlocProvider(
+        create: (context) => AuthCubit(
+          authService: context.read(),
+          tournamentService: context.read(),
+        ),
+        child: const App(),
+      ), //MyApp(),
       routes: [
         GoRoute(
           path: 'home',

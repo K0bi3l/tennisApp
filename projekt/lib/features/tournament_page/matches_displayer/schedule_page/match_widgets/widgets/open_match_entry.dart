@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projekt/features/tournament_page/models/sport_match.dart';
-import 'package:projekt/features/services/tournament_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:go_router/go_router.dart';
+import 'package:projekt/features/services/tournament_service.dart';
+import 'package:projekt/features/tournament_page/models/sport_match.dart';
 
 class OpenMatchEntry extends StatelessWidget {
-  OpenMatchEntry(
-      {super.key,
-      required this.match,
-      required this.roundNumber,
-      required this.available});
+  OpenMatchEntry({
+    super.key,
+    required this.match,
+    required this.roundNumber,
+    required this.available,
+  });
   final TextEditingController _result1Controller = TextEditingController();
   final TextEditingController _result2Controller = TextEditingController();
   final formKey = GlobalKey<FormState>();

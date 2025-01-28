@@ -21,13 +21,13 @@ class AuthCubit extends Cubit<AuthState> {
 
     switch (result) {
       case SignInResult.invalidEmail:
-        emit(SignedOutState(error: 'This email address is invalid.'));
+        emit(SignedOutState(message: 'Ten adres e-mail jest niewłaściwy.'));
       case SignInResult.userDisabled:
-        emit(SignedOutState(error: 'This user has been banned.'));
+        emit(SignedOutState(message: 'Ten użytkownik jest zbanowany.'));
       case SignInResult.userNotFound:
-        emit(SignedOutState(error: 'nie ma takiego użytkownika'));
+        emit(SignedOutState(message: 'nie ma takiego użytkownika'));
       case SignInResult.wrongPassword:
-        emit(SignedOutState(error: 'Invalid credentials.'));
+        emit(SignedOutState(message: 'Niewłaściwe dane.'));
       case SignInResult.success:
         userEmail = email;
         await tournamentService.getUserTournaments();
@@ -36,18 +36,20 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signUp(String email, String password, String name) async {
-    emit(SigningInState());
     final result = await authService.signUpWithEmail(email, password);
     if (result == true) {
-      await authService.signInWithEmail(email, password);
       await tournamentService.addUser(
         email,
         password,
         name,
-      ); //przenieść do auth service
-      emit(SignedOutState());
+      );
+      emit(
+        SignedOutState(message: 'Gratulacje! Udało Ci się zarejestrować!'),
+      );
     } else {
-      emit(SignedOutState(error: 'nastąpił błąd przy rejestracji'));
+      emit(
+        SignedOutState(message: 'Rejestracja nieudana, spróbuj ponownie'),
+      );
     }
   }
 
@@ -80,10 +82,10 @@ class SigningInState extends AuthState {
 }
 
 class SignedOutState extends AuthState {
-  SignedOutState({this.error});
+  SignedOutState({this.message});
 
-  final String? error;
+  final String? message;
 
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [message];
 }

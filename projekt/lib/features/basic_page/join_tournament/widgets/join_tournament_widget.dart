@@ -58,7 +58,7 @@ class _JoinTournamentWidgetState extends State<JoinTournamentWidget> {
 
                     if (!result) {
                       if (context.mounted) {
-                        showDialog(
+                        await showDialog(
                           context: context,
                           builder: (context) => const AlertDialog(
                             title: Text('Niepowodzenie dodania turnieju'),
@@ -73,7 +73,7 @@ class _JoinTournamentWidgetState extends State<JoinTournamentWidget> {
                     text.text = '';
                   } catch (e) {
                     if (context.mounted) {
-                      showDialog(
+                      await showDialog(
                         context: context,
                         builder: (context) =>
                             AlertDialog(title: Text(e.toString())),

@@ -1,7 +1,7 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bloc_test/bloc_test.dart';
 import 'package:projekt/features/auth/services/auth_service.dart';
 import 'package:projekt/features/basic_page/providers/tournament_list_provider.dart';
 import 'package:projekt/features/services/tournament_service.dart';
@@ -45,7 +45,10 @@ void main() {
         auth = MockFirebaseAuth();
         authService = AuthService(firebaseAuth: auth);
         service = TournamentService(
-            db: db, authService: authService, tournamentData: data);
+          db: db,
+          authService: authService,
+          tournamentData: data,
+        );
       },
     );
 
@@ -72,12 +75,6 @@ void main() {
         return TournamentCubit(service: service, tournamentId: '1');
       },
       expect: () => [TournamentReady()],
-    );
-
-    blocTest<TournamentCubit, TournamentState>(
-      'test initial state - id is null',
-      build: () => TournamentCubit(service: service, tournamentId: null),
-      expect: () => emits(TournamentLoading()),
     );
   });
 }

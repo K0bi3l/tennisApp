@@ -6,13 +6,14 @@ import '../../../../../services/tournament_service.dart';
 
 class ConfirmMatchesCubit extends Cubit<MatchState> {
   ConfirmMatchesCubit({
+    required this.roundNumber,
     required this.tournamentService,
     required this.authService,
     required this.match,
   }) : super(WaitingState()) {
     checkAvailibility();
   }
-
+  final int roundNumber;
   final TournamentService tournamentService;
   final AuthService authService;
   final SportMatch match;
@@ -42,16 +43,26 @@ class ConfirmMatchesCubit extends Cubit<MatchState> {
     }
   }
 
-  void checkAvailibility() {
+  void checkAvailibility() async {
     final player1Id = match.player1Id;
     final player2Id = match.player2Id;
-    if (authService.currentUser!.uid == player1Id ||
-        authService.currentUser!.uid == player2Id) {
-      emit(AvailableState());
-      return;
-    } else {
+    if (player1Id == 'pauza' || player2Id == 'pauza') {
       emit(NotAvailableState());
-      return;
+    } else {
+      if (authService.currentUser!.uid == player1Id ||
+          authService.currentUser!.uid == player2Id) {
+        final scored = await tournamentService.checkMatchScore(
+            match.tournamentId, roundNumber, match.id);
+        if (!scored) {
+          emit(AvailableState());
+        } else {
+          emit(NotAvailableState());
+        }
+        return;
+      } else {
+        emit(NotAvailableState());
+        return;
+      }
     }
   }
 }

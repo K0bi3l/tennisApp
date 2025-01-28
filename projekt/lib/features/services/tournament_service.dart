@@ -147,11 +147,11 @@ class TournamentService {
         tournamentData.addTournament = Tournament(
           code: code,
           id: doc.id,
-          name: data['name'] as String,
-          type: data['type'] as String,
-          startDate: data['startDate'] as String,
-          endDate: data['endDate'] as String,
-          numOfPlayers: data['playersCount'] as int,
+          name: data['name'],
+          type: data['type'],
+          startDate: data['startDate'],
+          endDate: data['endDate'],
+          numOfPlayers: data['playersCount'],
         );
       });
       return true;
@@ -174,13 +174,13 @@ class TournamentService {
       for (final tournament in t) {
         tournaments.add(
           Tournament(
-            name: tournament['name'] as String,
-            type: tournament['type'] as String,
-            id: tournament['id'] as String,
-            numOfPlayers: tournament['playersCount'] as int,
+            name: tournament['name'],
+            type: tournament['type'],
+            id: tournament['id'],
+            numOfPlayers: tournament['playersCount'],
             startDate: tournament['startDate'].toString(),
             endDate: tournament['endDate'].toString(),
-            code: tournament['code'] as String,
+            code: tournament['code'],
           ),
         );
       }
@@ -204,12 +204,12 @@ class TournamentService {
       final tournament = Tournament(
         id: id,
         userIds: ids,
-        code: data!['code'] as String,
+        code: data!['code'],
         startDate: data['startDate'].toString(),
         endDate: data['endDate'].toString(),
         type: null,
-        name: data['name'] as String,
-        numOfPlayers: data['playersCount'] as int,
+        name: data['name'],
+        numOfPlayers: data['playersCount'],
         matches: matches,
       );
       return tournament;
@@ -323,12 +323,12 @@ class TournamentService {
               (doc) => SportMatch(
                 tournamentId: tournamentId,
                 id: doc.id,
-                player1: doc.data()['player1'] as String,
-                player1Id: doc.data()['player1Id'] as String,
-                player2: doc.data()['player2'] as String,
-                player2Id: doc.data()['player2Id'] as String,
-                result1: doc.data()['result1'] as int,
-                result2: doc.data()['result2'] as int,
+                player1: doc.data()['player1'],
+                player1Id: doc.data()['player1Id'],
+                player2: doc.data()['player2'],
+                player2Id: doc.data()['player2Id'],
+                result1: doc.data()['result1'],
+                result2: doc.data()['result2'],
               ),
             )
             .toList();
@@ -349,7 +349,7 @@ class TournamentService {
     if (!docRef.exists) {
       return 0;
     }
-    final count = docRef.data()!['playersCount'] as int;
+    final count = docRef.data()!['playersCount'];
 
     return count.isEven ? count - 1 : count;
   }
@@ -380,7 +380,7 @@ class TournamentService {
   Future<bool> isTournamentScheduled(String tournamentId) async {
     final docRef = await db.collection('tournaments').doc(tournamentId).get();
 
-    final isTournamentScheduled = docRef.data()!['isScheduled'] as bool;
+    final isTournamentScheduled = docRef.data()!['isScheduled'];
 
     return isTournamentScheduled;
   }
@@ -399,11 +399,11 @@ class TournamentService {
     table = query.docs
         .map(
           (doc) => TournamentParticipant(
-            name: doc.data()['name'] as String,
-            wins: doc.data()['wins'] as int,
-            loses: doc.data()['loses'] as int,
-            ties: doc.data()['ties'] as int,
-            points: doc.data()['points'] as int,
+            name: doc.data()['name'],
+            wins: doc.data()['wins'],
+            loses: doc.data()['loses'],
+            ties: doc.data()['ties'],
+            points: doc.data()['points'],
           ),
         )
         .toList();
@@ -422,6 +422,9 @@ class TournamentService {
     String player2Id,
   ) async {
     try {
+      if (player1Id == 'pauza' || player2Id == 'pauza') {
+        return false;
+      }
       final int firstScore = int.parse(score1);
       final int secondScore = int.parse(score2);
       final winnerId = firstScore > secondScore ? player1Id : player2Id;
@@ -457,8 +460,8 @@ class TournamentService {
         .doc(winnerId)
         .get();
 
-    final wins = docRef.data()!['wins'] as int;
-    final points = docRef.data()!['points'] as int;
+    final wins = docRef.data()!['wins'];
+    final points = docRef.data()!['points'];
 
     docRef = await db
         .collection('tournaments')
@@ -467,7 +470,7 @@ class TournamentService {
         .doc(loserId)
         .get();
 
-    final loses = docRef.data()!['loses'] as int;
+    final loses = docRef.data()!['loses'];
 
     await db
         .collection('tournaments')
@@ -500,7 +503,7 @@ class TournamentService {
         .collection('rounds')
         .doc('round $roundNumber')
         .collection('matches')
-        .doc('matchId')
+        .doc(matchId)
         .get();
 
     final firstResult = docRef.data()!['result1'];
